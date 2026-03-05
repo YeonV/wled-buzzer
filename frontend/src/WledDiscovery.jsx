@@ -12,7 +12,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { io } from 'socket.io-client';
 
-const SOCKET_URL = 'http://localhost:3001';
+const SOCKET_URL = 'http://localhost:1303';
 
 export default function WledDiscovery({ onClose }) {
   const [devices,     setDevices]     = useState([]);   // [{ ip, name, ver, mac, ... }]

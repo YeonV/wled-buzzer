@@ -28,7 +28,7 @@ if (process.pkg) {
 //  CONFIG
 // ─────────────────────────────────────────────
 const MQTT_PORT = 1883;
-const WS_PORT   = 3001;
+const WS_PORT   = 1303;
 
 
 

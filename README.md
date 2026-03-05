@@ -121,7 +121,7 @@ For maximum reliability use a **dedicated offline router**:
 
 | Port | Protocol | Purpose |
 |---|---|---|
-| 3001 | HTTP / WebSocket | Frontend + Socket.IO |
+| 1303 | HTTP / WebSocket | Frontend + Socket.IO |
 | 1883 | TCP | MQTT broker (Aedes) |
 
 ---

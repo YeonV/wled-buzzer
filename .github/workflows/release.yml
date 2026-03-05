@@ -88,7 +88,7 @@ jobs:
             ## Installation
             1. Download and unzip `${{ steps.meta.outputs.zip }}`
             2. Double-click `wled-buzzer.exe`
-            3. The browser opens automatically at `http://localhost:3001`
+            3. The browser opens automatically at `http://localhost:1303`
 
             **Requires:** Windows, local Wi-Fi network with WLED buzzers
 
