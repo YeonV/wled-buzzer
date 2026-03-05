@@ -1,6 +1,6 @@
 ﻿# WLED Buzzer
 
-## ![state](https://img.shields.io/badge/STATE-stable-green.svg?logo=data:image/png;base64,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&logoColor=white) ![version](https://img.shields.io/github/v/release/YeonV/wled-buzzer?label=VERSION&logo=git&logoColor=white) [![creator](https://img.shields.io/badge/CREATOR-Yeon-blue.svg?logo=github&logoColor=white)](https://github.com/YeonV) [![creator](https://img.shields.io/badge/A.K.A-Blade-darkred.svg?logo=github&logoColor=white)](https://github.com/YeonV)
+## ![version](https://img.shields.io/github/v/release/YeonV/wled-buzzer?label=VERSION&logo=git&logoColor=white) [![creator](https://img.shields.io/badge/CREATOR-Yeon-blue.svg?logo=github&logoColor=white)](https://github.com/YeonV) [![creator](https://img.shields.io/badge/A.K.A-Blade-darkred.svg?logo=github&logoColor=white)](https://github.com/YeonV)
 
 A self-contained wireless quiz buzzer system for game shows and events. Physical WLED-powered buzzers connect over Wi-Fi to a Node.js server that runs the game logic, hosts the MQTT broker, and serves a React scoreboard — all from a single `.exe` that runs offline with no internet required.
 
@@ -71,8 +71,7 @@ Preset 1 is the *PRESS* preset (white burst) — the server uses `ps=1` as the b
 
 > [!WARNING]
 > **This application will OVERWRITE your WLED presets and MQTT settings.**
-> When you push the MQTT config from the Setup Screen and when the game starts, the server automatically writes Presets 1–4 and reconfigures the MQTT broker address on **every buzzer it finds**. Any existing presets or MQTT configuration on those devices will be permanently replaced without a backup prompt.
-> **Do not use this with WLED devices that have presets or MQTT settings you want to keep.**
+> WLED used as Buzzers will looser their presets and mqtt settings!
 
 ## Quick start
 
@@ -111,7 +110,7 @@ dist/
 
 ---
 
-## Event day network setup
+## Production network setup
 
 For maximum reliability use a **dedicated offline router**:
 
@@ -161,5 +160,3 @@ wled-buzzer/
 ## Credits
 
 [![wled](https://img.shields.io/badge/Github-WLED-blue.svg?logo=github&logoColor=white)](https://github.com/Aircoookie/WLED)
-[![aedes](https://img.shields.io/badge/Github-Aedes_MQTT-blue.svg?logo=github&logoColor=white)](https://github.com/moscajs/aedes)
-[![pkg](https://img.shields.io/badge/Github-pkg-blue.svg?logo=github&logoColor=white)](https://github.com/vercel/pkg)
