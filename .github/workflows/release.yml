@@ -67,8 +67,10 @@ jobs:
       - name: Copy frontend assets to dist/public
         run: |
           New-Item -ItemType Directory -Force -Path dist/public
-          Copy-Item -Recurse frontend/dist/* dist/public/          # Include add-hosts.bat so end-users can set up HTTPS from the dist folder
-          Copy-Item add-hosts.bat dist/add-hosts.bat        shell: pwsh
+          Copy-Item -Recurse frontend/dist/* dist/public/
+          # Include add-hosts.bat so end-users can set up HTTPS from the dist folder
+          Copy-Item add-hosts.bat dist/add-hosts.bat
+        shell: pwsh
 
       # ── Zip ──────────────────────────────────────────────────────────────
       - name: Create release zip
