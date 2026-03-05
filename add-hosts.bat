@@ -7,7 +7,24 @@ if %errorlevel% neq 0 (
   exit /b
 )
 
-:: ── Add entry if not already present ─────────────────────────────────────
+:: ── Install mkcert if missing ─────────────────────────────────────────────
+where mkcert >nul 2>&1
+if %errorlevel% neq 0 (
+  echo mkcert not found. Installing via winget...
+  winget install FiloSottile.mkcert --silent
+  if errorlevel 1 (
+    echo  ERROR: winget install failed. Install mkcert manually:
+    echo    winget install FiloSottile.mkcert
+    pause & exit /b 1
+  )
+  :: Reload PATH so mkcert is available in this session
+  for /f "usebackq tokens=2*" %%A in (`reg query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v PATH`) do set SYSPATH=%%B
+  for /f "usebackq tokens=2*" %%A in (`reg query "HKCU\Environment" /v PATH 2^>nul`) do set USERPATH=%%B
+  set "PATH=%SYSPATH%;%USERPATH%"
+  echo.
+)
+
+:: ── Add hosts entry if not already present ───────────────────────────────
 set HOSTS=%SystemRoot%\System32\drivers\etc\hosts
 set ENTRY=127.0.0.1   lorains.quiz
 
@@ -20,7 +37,29 @@ if %errorlevel% equ 0 (
   echo Added: %ENTRY%
 )
 
+:: ── Install local CA (one-time) ───────────────────────────────────────────
 echo.
-echo Done! Access the app at: http://lorains.quiz:1303
+echo Installing local CA (one-time, may prompt)...
+mkcert -install
+
+:: ── Generate certificate ──────────────────────────────────────────────────
+echo.
+echo Generating certificate for lorains.quiz...
+if not exist "%~dp0certs" mkdir "%~dp0certs"
+cd /d "%~dp0certs"
+mkcert -cert-file cert.pem -key-file key.pem lorains.quiz localhost 127.0.0.1
+if errorlevel 1 (
+  echo  ERROR: mkcert failed.
+  pause & exit /b 1
+)
+echo  Cert written to: %~dp0certs\cert.pem
+echo  Key  written to: %~dp0certs\key.pem
+
+echo.
+echo ============================================
+echo   Done!
+echo ============================================
+echo   Open your browser at: https://lorains.quiz:1303
+echo   (wled-buzzer.exe must be running)
 echo.
 pause

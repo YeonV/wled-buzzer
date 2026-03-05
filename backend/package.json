@@ -18,8 +18,8 @@
   },
   "devDependencies": {
     "nodemon": "^3.0.2",
-    "pkg": "^5.8.1",
-    "rcedit": "^4.0.0"
+    "@yao-pkg/pkg": "^5.15.0",
+    "resedit-cli": "^1.0.0"
   },
   "pkg": {
     "assets": [],

@@ -5,7 +5,7 @@ import WledDiscovery from './WledDiscovery';
 import SetupScreen from './SetupScreen';
 
 // ─── Socket connection to Node backend ──────────────────────────────────────
-const socket = io('http://localhost:1303', { autoConnect: true });
+const socket = io(`${window.location.protocol}//${window.location.hostname}:1303`, { autoConnect: true });
 
 // ─── Persist name map to localStorage ───────────────────────────────────────
 const LS_NAMES = 'buzzer-names';

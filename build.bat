@@ -34,13 +34,19 @@ if errorlevel 1 (
 echo.
 echo [3/4] Packaging backend into .exe (this may take a minute)...
 if not exist "%~dp0dist" mkdir "%~dp0dist"
-call npx pkg server.js --targets node18-win-x64 --icon "%~dp0icon.ico" --output "%~dp0dist\wled-buzzer.exe"
+call npx pkg server.js --targets node18-win-x64 --output "%~dp0dist\wled-buzzer.exe"
 if errorlevel 1 (
   echo.
   echo  ERROR: pkg packaging failed!
   echo  Tip: if you see "bytecode" errors, try:
-  echo       npx pkg server.js --targets node18-win-x64 --no-bytecode --public --output ..\dist\wled-buzzer.exe
+  echo       npx pkg server.js --targets node18-win-x64 --no-bytecode --public --output ..\ dist\wled-buzzer.exe
   pause & exit /b 1
+)
+
+:: ── Inject icon via resedit (safe for pkg binaries) ────────────────────────────────
+if exist "%~dp0icon.ico" (
+  call npx resedit-cli --in "%~dp0dist\wled-buzzer.exe" --out "%~dp0dist\wled-buzzer.exe" --icon 1,"%~dp0icon.ico" --allow-shrink
+  if errorlevel 1 echo  WARNING: Icon injection failed, exe will use default icon.
 )
 cd "%~dp0"
 
@@ -64,7 +70,15 @@ echo   dist\wled-buzzer.exe   ^<- double-click to run
 echo   dist\public\            ^<- frontend assets
 echo.
 
-set /p OPEN="Open dist\ folder now? [Y/n]: "
-if /i not "%OPEN%"=="n" explorer "%~dp0dist"
+:: ── Bundle certs if they exist ────────────────────────────────────────────────────────────
+if exist "%~dp0certs\cert.pem" (
+  if not exist "%~dp0dist\certs" mkdir "%~dp0dist\certs"
+  copy /Y "%~dp0certs\cert.pem" "%~dp0dist\certs\cert.pem" >nul
+  copy /Y "%~dp0certs\key.pem"  "%~dp0dist\certs\key.pem"  >nul
+  echo   dist\certs\             ^<- TLS cert bundled
+)
 
-endlocal
+:: ── Bundle add-hosts.bat so users can run it from dist ──────────────────────────────
+copy /Y "%~dp0add-hosts.bat" "%~dp0dist\add-hosts.bat" >nul
+echo   dist\add-hosts.bat      ^<- run once to enable https://lorains.quiz:1303
+echo.

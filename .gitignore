@@ -13,6 +13,7 @@ frontend/node_modules
 dist
 frontend/dist
 dist-ssr
+certs/
 *.local
 
 # Editor directories and files

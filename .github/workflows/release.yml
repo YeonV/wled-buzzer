@@ -57,16 +57,18 @@ jobs:
       - name: Package Windows .exe
         working-directory: backend
         run: |
-          $iconFlag = if (Test-Path "../icon.ico") { @("--icon", "../icon.ico") } else { @() }
-          npx pkg server.js --targets node18-win-x64 @iconFlag --output ../dist/wled-buzzer.exe
+          npx pkg server.js --targets node18-win-x64 --output ../dist/wled-buzzer.exe
+          if (Test-Path "../icon.ico") {
+            npx resedit-cli --in ../dist/wled-buzzer.exe --out ../dist/wled-buzzer.exe --icon 1,../icon.ico --allow-shrink --file-version "${{ steps.meta.outputs.version }}.0"
+          }
         shell: pwsh
 
       # ── Assemble dist/ folder ────────────────────────────────────────────
       - name: Copy frontend assets to dist/public
         run: |
           New-Item -ItemType Directory -Force -Path dist/public
-          Copy-Item -Recurse frontend/dist/* dist/public/
-        shell: pwsh
+          Copy-Item -Recurse frontend/dist/* dist/public/          # Include add-hosts.bat so end-users can set up HTTPS from the dist folder
+          Copy-Item add-hosts.bat dist/add-hosts.bat        shell: pwsh
 
       # ── Zip ──────────────────────────────────────────────────────────────
       - name: Create release zip

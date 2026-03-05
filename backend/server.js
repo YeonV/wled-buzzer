@@ -2,12 +2,14 @@ const aedes = require('aedes')();
 const net = require('net');
 const os  = require('os');
 const path = require('path');
+const fs = require('fs');
 const { exec } = require('child_process');
 const mqtt = require('mqtt');
 const axios = require('axios');
 const express = require('express');
 const { Server } = require('socket.io');
 const http = require('http');
+const https = require('https');
 
 // ─── Serve built frontend (works as plain node and as pkg .exe) ──────────────
 const STATIC_DIR = process.pkg
@@ -96,14 +98,25 @@ const mqttClientIpMap = {}; // { mqttClientId: remoteIp }
 // ─────────────────────────────────────────────
 //  SOCKET.IO  (WebSocket → React UI)
 // ─────────────────────────────────────────────
-const httpServer = http.createServer(app);
-const io = new Server(httpServer, {
+const CERT_DIR = process.pkg
+  ? path.join(path.dirname(process.execPath), 'certs')
+  : path.join(__dirname, '..', 'certs');
+const certFile = path.join(CERT_DIR, 'cert.pem');
+const keyFile  = path.join(CERT_DIR, 'key.pem');
+
+const useTLS = fs.existsSync(certFile) && fs.existsSync(keyFile);
+const server = useTLS
+  ? https.createServer({ cert: fs.readFileSync(certFile), key: fs.readFileSync(keyFile) }, app)
+  : http.createServer(app);
+const protocol = useTLS ? 'https' : 'http';
+
+const io = new Server(server, {
   cors: { origin: '*', methods: ['GET', 'POST'] },
 });
 
-httpServer.listen(WS_PORT, () => {
-  console.info(`🚀  WLED Buzzer running  →  http://localhost:${WS_PORT}`);
-  if (process.pkg) exec(`start http://localhost:${WS_PORT}`);
+server.listen(WS_PORT, () => {
+  console.info(`🚀  WLED Buzzer running  →  ${protocol}://localhost:${WS_PORT}`);
+  if (process.pkg) exec(`start ${protocol}://localhost:${WS_PORT}`);
 });
 
 io.on('connection', (socket) => {
