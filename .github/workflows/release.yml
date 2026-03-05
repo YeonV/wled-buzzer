@@ -65,9 +65,7 @@ jobs:
       - name: Copy frontend assets to dist/public
         run: |
           New-Item -ItemType Directory -Force -Path dist/public
-          Copy-Item -Recurse frontend/dist/. dist/public/
-          $mp3s = Get-Item frontend/public/*.mp3 -ErrorAction SilentlyContinue
-          if ($mp3s) { Copy-Item $mp3s dist/public/ }
+          Copy-Item -Recurse frontend/dist/* dist/public/
         shell: pwsh
 
       # ── Zip ──────────────────────────────────────────────────────────────
