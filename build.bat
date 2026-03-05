@@ -38,15 +38,7 @@ call npx pkg server.js --targets node18-win-x64 --output "%~dp0dist\wled-buzzer.
 if errorlevel 1 (
   echo.
   echo  ERROR: pkg packaging failed!
-  echo  Tip: if you see "bytecode" errors, try:
-  echo       npx pkg server.js --targets node18-win-x64 --no-bytecode --public --output ..\ dist\wled-buzzer.exe
   pause & exit /b 1
-)
-
-:: ── Inject icon via resedit (safe for pkg binaries) ────────────────────────────────
-if exist "%~dp0icon.ico" (
-  call npx resedit-cli --in "%~dp0dist\wled-buzzer.exe" --out "%~dp0dist\wled-buzzer.exe" --icon 1,"%~dp0icon.ico" --allow-shrink
-  if errorlevel 1 echo  WARNING: Icon injection failed, exe will use default icon.
 )
 cd "%~dp0"
 

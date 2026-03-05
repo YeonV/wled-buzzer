@@ -56,11 +56,7 @@ jobs:
 
       - name: Package Windows .exe
         working-directory: backend
-        run: |
-          npx pkg server.js --targets node18-win-x64 --output ../dist/wled-buzzer.exe
-          if (Test-Path "../icon.ico") {
-            npx resedit-cli --in ../dist/wled-buzzer.exe --out ../dist/wled-buzzer.exe --icon 1,../icon.ico --allow-shrink --file-version "${{ steps.meta.outputs.version }}.0"
-          }
+        run: npx pkg server.js --targets node18-win-x64 --output ../dist/wled-buzzer.exe
         shell: pwsh
 
       # ── Assemble dist/ folder ────────────────────────────────────────────
