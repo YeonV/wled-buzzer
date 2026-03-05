@@ -57,8 +57,8 @@ jobs:
       - name: Package Windows .exe
         working-directory: backend
         run: |
-          npx pkg server.js --targets node18-win-x64 --output ../dist/wled-buzzer.exe
-          if (Test-Path "../icon.ico") { .\node_modules\rcedit\bin\rcedit-x64.exe ../dist/wled-buzzer.exe --set-icon ../icon.ico }
+          $iconFlag = if (Test-Path "../icon.ico") { @("--icon", "../icon.ico") } else { @() }
+          npx pkg server.js --targets node18-win-x64 @iconFlag --output ../dist/wled-buzzer.exe
         shell: pwsh
 
       # ── Assemble dist/ folder ────────────────────────────────────────────
@@ -73,10 +73,10 @@ jobs:
       # ── Zip ──────────────────────────────────────────────────────────────
       - name: Create release zip
         run: |
-          cd dist
-          Compress-Archive -Path . -DestinationPath "../${{ steps.meta.outputs.zip }}"
+          Rename-Item dist wled-buzzer
+          Compress-Archive -Path wled-buzzer -DestinationPath "${{ steps.meta.outputs.zip }}"
           Write-Host "Contents:"
-          Get-ChildItem -Recurse .
+          Get-ChildItem -Recurse wled-buzzer
         shell: pwsh
 
       # ── Publish GitHub Release ───────────────────────────────────────────

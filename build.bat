@@ -34,21 +34,7 @@ if errorlevel 1 (
 echo.
 echo [3/4] Packaging backend into .exe (this may take a minute)...
 if not exist "%~dp0dist" mkdir "%~dp0dist"
-call npx pkg server.js --targets node18-win-x64 --output "%~dp0dist\wled-buzzer.exe"
-if errorlevel 1 (
-  echo.
-  echo  ERROR: pkg packaging failed!
-  pause & exit /b 1
-)
-
-:: ── Embed icon via rcedit ─────────────────────────────────────────────────
-if exist "%~dp0icon.ico" (
-  "%~dp0backend\node_modules\rcedit\bin\rcedit-x64.exe" "%~dp0dist\wled-buzzer.exe" --set-icon "%~dp0icon.ico"
-  if errorlevel 1 (
-    echo  WARNING: Icon embedding failed, exe will use default icon.
-  )
-)
-if not exist "%~dp0icon.ico" echo  NOTE: No icon.ico found, skipping icon embed.
+call npx pkg server.js --targets node18-win-x64 --icon "%~dp0icon.ico" --output "%~dp0dist\wled-buzzer.exe"
 if errorlevel 1 (
   echo.
   echo  ERROR: pkg packaging failed!
