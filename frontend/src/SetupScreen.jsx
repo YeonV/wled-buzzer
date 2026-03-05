@@ -81,8 +81,9 @@ export default function SetupScreen({ socket, initialMqttMap = {}, onStart }) {
 
   const [scanning,  setScanning]  = useState(true);
   const [scanPct,   setScanPct]   = useState(0);
-  const [mqttStatus, setMqttStatus] = useState({}); // { [ip]: 'idle'|'running'|'done'|'error' }
-  const [mqttLog,    setMqttLog]    = useState({}); // { [ip]: string }
+  const [mqttStatus,     setMqttStatus]     = useState({}); // { [ip]: 'idle'|'running'|'done'|'error' }
+  const [mqttLog,        setMqttLog]        = useState({}); // { [ip]: string }
+  const [clientNameMap,  setClientNameMap]  = useState({}); // { [hexId]: mqttClientId }
   const buzzTimers = useRef({});
 
   // ── Socket listeners ──────────────────────────────────────────────────────
@@ -93,6 +94,8 @@ export default function SetupScreen({ socket, initialMqttMap = {}, onStart }) {
     const timers = buzzTimers.current;
 
     // Live MQTT map update — upgrades ip: entries to real hexId entries
+    const onClientNameMap = (map) => setClientNameMap(map);
+
     const onMqttMap = (rawMap) => {
       setDevices(prev => {
         let next = { ...prev };
@@ -176,8 +179,9 @@ export default function SetupScreen({ socket, initialMqttMap = {}, onStart }) {
       setMqttLog(prev    => ({ ...prev, [ip]: `⚠ ${msg}` }));
     };
 
-    socket.on('mqttClientIpMap',  onMqttMap);
-    socket.on('wledFound',        onFound);
+    socket.on('mqttClientIpMap',   onMqttMap);
+    socket.on('mqttClientNameMap',  onClientNameMap);
+    socket.on('wledFound',         onFound);
     socket.on('wledScanProgress', onProgress);
     socket.on('wledScanDone',     onDone);
     socket.on('setupBuzz',        onSetupBuzz);
@@ -186,8 +190,9 @@ export default function SetupScreen({ socket, initialMqttMap = {}, onStart }) {
     socket.on('wledMqttError',    onMqttError);
 
     return () => {
-      socket.off('mqttClientIpMap',  onMqttMap);
-      socket.off('wledFound',        onFound);
+    socket.off('mqttClientIpMap',   onMqttMap);
+    socket.off('mqttClientNameMap',  onClientNameMap);
+    socket.off('wledFound',         onFound);
       socket.off('wledScanProgress', onProgress);
       socket.off('wledScanDone',     onDone);
       socket.off('setupBuzz',        onSetupBuzz);
@@ -259,7 +264,7 @@ export default function SetupScreen({ socket, initialMqttMap = {}, onStart }) {
               <th>Player name</th>
               <th>IP</th>
               <th>WLED name</th>
-              <th>Chip ID</th>
+              <th>Client name</th>
             </tr>
           </thead>
           <tbody>
@@ -302,8 +307,16 @@ export default function SetupScreen({ socket, initialMqttMap = {}, onStart }) {
                     : <span className="setup-unknown">offline?</span>
                   }
                 </td>
-                <td className="setup-wled-name">{d.wledName || <span className="setup-unknown">—</span>}</td>
-                <td className="setup-hex">{key}</td>
+                <td className="setup-wled-name">
+                  {d.wledName
+                    ? <>{d.wledName}<button className="setup-copy-btn" title="Copy to player name" onClick={() => setName(key, d.wledName)}>⬅</button></>
+                    : <span className="setup-unknown">—</span>}
+                </td>
+                <td className="setup-hex">
+                  {clientNameMap[key]
+                    ? <>{clientNameMap[key]}<button className="setup-copy-btn" title="Copy to player name" onClick={() => setName(key, clientNameMap[key])}>⬅</button></>
+                    : <span className="setup-unknown">—</span>}
+                </td>
               </tr>
             ))}
 

@@ -369,6 +369,21 @@ body { background: var(--c-bg-idle); color: var(--c-white); overflow: hidden; }
   line-height: 1.5;
 }
 
+.setup-copy-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.6);
+  opacity: 0.5;
+  padding: 0 0 5px 4px;
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  transition: opacity 0.15s, color 0.15s;
+}
+.setup-copy-btn:hover { opacity: 1; color: #fff; }
+
 /* Responsive: stack vertically on narrow screens */
 @media (max-width: 700px) {
   .setup-screen  { padding: 0; align-items: stretch; }

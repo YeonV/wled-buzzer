@@ -93,7 +93,8 @@ const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 // No debounce state needed — preset ID filtering handles all false-positive suppression.
 
 // ── MQTT client ID → IP tracking ────────────────────────────────────────────
-const mqttClientIpMap = {}; // { mqttClientId: remoteIp }
+const mqttClientIpMap  = {}; // { hexId: remoteIp }
+const mqttClientNameMap = {}; // { hexId: mqttClientId }
 
 // ─────────────────────────────────────────────
 //  SOCKET.IO  (WebSocket → React UI)
@@ -127,6 +128,7 @@ io.on('connection', (socket) => {
   socket.emit('gameMode',    { mode: gameMode });
   socket.emit('reflexState', { state: reflexState });
   socket.emit('mqttClientIpMap', mqttClientIpMap);
+  socket.emit('mqttClientNameMap', mqttClientNameMap);
   socket.emit('buzzerRoster', buzzerRoster);
 
   socket.on('manualReset', () => {
@@ -158,7 +160,7 @@ io.on('connection', (socket) => {
     abortReflexRound();
   });
 
-  
+
   // ── Master WLED controls ──────────────────────────────────────────────────
   socket.on('wledPushMqtt', async ({ ip }) => {
     // Derive the server's own IP to use as the MQTT broker address
@@ -368,9 +370,18 @@ aedes.on('publish', (packet, client) => {
   if (parts[0] !== 'wled' || parts.length < 2) return;
   const hexId = parts[1];
   const ip = client.conn?.remoteAddress?.replace(/^::ffff:/, '') ?? 'unknown';
+  let changed = false;
   if (mqttClientIpMap[hexId] !== ip) {
     mqttClientIpMap[hexId] = ip;
-    io.emit('mqttClientIpMap', { ...mqttClientIpMap });
+    changed = true;
+  }
+  if (mqttClientNameMap[hexId] !== client.id) {
+    mqttClientNameMap[hexId] = client.id;
+    changed = true;
+  }
+  if (changed) {
+    io.emit('mqttClientIpMap',  { ...mqttClientIpMap });
+    io.emit('mqttClientNameMap', { ...mqttClientNameMap });
   }
 });
 

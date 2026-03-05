@@ -4,8 +4,12 @@ import './App.css';
 import WledDiscovery from './WledDiscovery';
 import SetupScreen from './SetupScreen';
 
-// ─── Socket connection to Node backend ──────────────────────────────────────
-const socket = io(`${window.location.protocol}//${window.location.hostname}:1303`, { autoConnect: true });
+// In dev (Vite), connect to same origin so the proxy forwards to the backend.
+// In production (served directly by the .exe on port 1303), use the explicit port.
+const BACKEND_URL = import.meta.env.DEV
+  ? `${window.location.protocol}//${window.location.hostname}:${window.location.port}`
+  : `${window.location.protocol}//${window.location.hostname}:1303`;
+const socket = io(BACKEND_URL, { autoConnect: true });
 
 // ─── Persist name map to localStorage ───────────────────────────────────────
 const LS_NAMES = 'buzzer-names';
