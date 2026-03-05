@@ -69,6 +69,11 @@ Preset 1 is the *PRESS* preset (white burst) — the server uses `ps=1` as the b
 
 ---
 
+> [!WARNING]
+> **This application will OVERWRITE your WLED presets and MQTT settings.**
+> When you push the MQTT config from the Setup Screen and when the game starts, the server automatically writes Presets 1–4 and reconfigures the MQTT broker address on **every buzzer it finds**. Any existing presets or MQTT configuration on those devices will be permanently replaced without a backup prompt.
+> **Do not use this with WLED devices that have presets or MQTT settings you want to keep.**
+
 ## Quick start
 
 **Requirements:** Node.js 18+, npm
