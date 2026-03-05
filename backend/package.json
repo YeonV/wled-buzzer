@@ -18,7 +18,8 @@
   },
   "devDependencies": {
     "nodemon": "^3.0.2",
-    "pkg": "^5.8.1"
+    "pkg": "^5.8.1",
+    "rcedit": "^4.0.0"
   },
   "pkg": {
     "assets": [],

@@ -9,7 +9,9 @@ jobs:
     # Only run when the commit message starts with "Release "
     # e.g. "Release 1.0.0" or "Release 1.2 – Wedding day build"
     if: startsWith(github.event.head_commit.message, 'Release ')
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
+    permissions:
+      contents: write
 
     steps:
       - uses: actions/checkout@v4
@@ -19,11 +21,23 @@ jobs:
       - name: Extract version
         id: meta
         run: |
-          MSG=$(echo "${{ github.event.head_commit.message }}" | head -n 1)
-          VERSION="${MSG#Release }"
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "tag=v$VERSION" >> $GITHUB_OUTPUT
-          echo "zip=wled-buzzer-${VERSION}.zip" >> $GITHUB_OUTPUT
+          $msg = "${{ github.event.head_commit.message }}" -split "`n" | Select-Object -First 1
+          $version = $msg -replace '^Release ', ''
+          echo "version=$version" >> $env:GITHUB_OUTPUT
+          echo "tag=v$version" >> $env:GITHUB_OUTPUT
+          echo "zip=wled-buzzer-${version}.zip" >> $env:GITHUB_OUTPUT
+        shell: pwsh
+
+      # ── Bump version in both package.json files ──────────────────────────
+      - name: Bump package.json versions
+        run: |
+          $version = "${{ steps.meta.outputs.version }}"
+          foreach ($path in @("frontend/package.json", "backend/package.json")) {
+            $pkg = Get-Content $path -Raw | ConvertFrom-Json
+            $pkg.version = $version
+            $pkg | ConvertTo-Json -Depth 10 | Set-Content $path -Encoding UTF8
+          }
+        shell: pwsh
 
       - name: Setup Node.js 18
         uses: actions/setup-node@v4
@@ -42,24 +56,28 @@ jobs:
 
       - name: Package Windows .exe
         working-directory: backend
-        run: npx pkg server.js --targets node18-win-x64 --output ../dist/wled-buzzer.exe
+        run: |
+          npx pkg server.js --targets node18-win-x64 --output ../dist/wled-buzzer.exe
+          if (Test-Path "../icon.ico") { .\node_modules\rcedit\bin\rcedit-x64.exe ../dist/wled-buzzer.exe --set-icon ../icon.ico }
+        shell: pwsh
 
       # ── Assemble dist/ folder ────────────────────────────────────────────
       - name: Copy frontend assets to dist/public
         run: |
-          mkdir -p dist/public
-          cp -r frontend/dist/. dist/public/
-          if ls frontend/public/*.mp3 2>/dev/null; then
-            cp frontend/public/*.mp3 dist/public/
-          fi
+          New-Item -ItemType Directory -Force -Path dist/public
+          Copy-Item -Recurse frontend/dist/. dist/public/
+          $mp3s = Get-Item frontend/public/*.mp3 -ErrorAction SilentlyContinue
+          if ($mp3s) { Copy-Item $mp3s dist/public/ }
+        shell: pwsh
 
       # ── Zip ──────────────────────────────────────────────────────────────
       - name: Create release zip
         run: |
           cd dist
-          zip -r "../${{ steps.meta.outputs.zip }}" .
-          echo "Contents:"
-          zipinfo "../${{ steps.meta.outputs.zip }}"
+          Compress-Archive -Path . -DestinationPath "../${{ steps.meta.outputs.zip }}"
+          Write-Host "Contents:"
+          Get-ChildItem -Recurse .
+        shell: pwsh
 
       # ── Publish GitHub Release ───────────────────────────────────────────
       - name: Create GitHub Release

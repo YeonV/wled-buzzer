@@ -102,7 +102,7 @@ const io = new Server(httpServer, {
 });
 
 httpServer.listen(WS_PORT, () => {
-  console.info(`🚀  Wedding Game running  →  http://localhost:${WS_PORT}`);
+  console.info(`🚀  WLED Buzzer running  →  http://localhost:${WS_PORT}`);
   if (process.pkg) exec(`start http://localhost:${WS_PORT}`);
 });
 
