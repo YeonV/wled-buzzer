@@ -1,0 +1,6 @@
+[submodule "plugins/private"]
+	path = plugins/private
+	url = https://github.com/YeonV/wled-buzzer-plugins.git
+[submodule "custom-packs/private"]
+	path = custom-packs/private
+	url = https://github.com/YeonV/xeon.git

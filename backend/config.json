@@ -1,0 +1,33 @@
+{
+  "ports": {
+    "mqtt": 1883,
+    "ws":   1303
+  },
+  "ledfxUrl": "http://localhost:8888",
+  "timings": {
+    "reflexCollectMs":       3000,
+    "reflexResultsMs":       6000,
+    "reflexCountdownStepMs": 1000,
+    "reflexFlashMinMs":       400,
+    "reflexFlashRangeMs":     800,
+    "presetSaveDelayMs":      350,
+    "wledTimeoutMs":         1500,
+    "setupTimeoutMs":        4000,
+    "eliminationWindowMs":   6000,
+    "autoWrongMsDefault":    5000
+  },
+  "wledPresets": {
+    "PRESS":  { "id": 1, "n": "Press",  "fx": 9,  "sx": 200, "bri": 255, "col": [255, 255, 255] },
+    "WINNER": { "id": 2, "n": "Winner", "fx": 0,  "sx":   0, "bri": 255, "col": [0,   220,  80] },
+    "LOSER":  { "id": 3, "n": "Loser",  "fx": 0,  "sx":   0, "bri": 255, "col": [255,  30,   0] },
+    "IDLE":   { "id": 4, "n": "Idle",   "fx": 65, "sx":  30, "bri": 128, "col": [0,    80, 255] }
+  },
+  "ledfxPresets": {
+    "PRESS":  { "type": "rainbow" },
+    "IDLE":   { "type": "singleColor", "config": { "color": "#ff1493" } },
+    "WINNER": { "type": "singleColor", "config": { "color": "#00ff00" } },
+    "LOSER":  { "type": "singleColor", "config": { "color": "#ff0000" } },
+    "DIM":    { "type": "singleColor", "config": { "color": "#3d0030" } }
+  },
+  "ledfxFallbackIds": ["herz", "pik", "karo", "kreuz"]
+}

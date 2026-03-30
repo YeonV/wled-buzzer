@@ -1,0 +1,11 @@
+{
+  "name": "Quiz Buzzers",
+  "short_name": "Buzzers",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0d0d1a",
+  "theme_color": "#0d0d1a",
+  "icons": [
+    { "src": "/icon.ico", "sizes": "any", "type": "image/x-icon" }
+  ]
+}

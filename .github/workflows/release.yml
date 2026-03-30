@@ -1,0 +1,98 @@
+name: Release
+
+on:
+  push:
+    branches: [main, test]
+
+jobs:
+  release:
+    # Only run when the commit message starts with "Release "
+    # e.g. "Release 1.0.0" or "Release 1.2 – Wedding day build"
+    if: startsWith(github.event.head_commit.message, 'Release ')
+    runs-on: windows-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # ── Extract version from commit message ─────────────────────────────
+      # "Release 1.0.0" → version=1.0.0  tag=v1.0.0
+      - name: Extract version
+        id: meta
+        run: |
+          $msg = "${{ github.event.head_commit.message }}" -split "`n" | Select-Object -First 1
+          $version = $msg -replace '^Release ', ''
+          echo "version=$version" >> $env:GITHUB_OUTPUT
+          echo "tag=v$version" >> $env:GITHUB_OUTPUT
+          echo "zip=wled-buzzer-${version}.zip" >> $env:GITHUB_OUTPUT
+        shell: pwsh
+
+      # ── Bump version in both package.json files ──────────────────────────
+      - name: Bump package.json versions
+        run: |
+          $version = "${{ steps.meta.outputs.version }}"
+          foreach ($path in @("frontend/package.json", "backend/package.json")) {
+            $pkg = Get-Content $path -Raw | ConvertFrom-Json
+            $pkg.version = $version
+            $pkg | ConvertTo-Json -Depth 10 | Set-Content $path -Encoding UTF8
+          }
+        shell: pwsh
+
+      - name: Setup Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      # ── Build frontend ───────────────────────────────────────────────────
+      - name: Build frontend
+        working-directory: frontend
+        run: npm ci && npm run build
+
+      # ── Install backend deps + package .exe ─────────────────────────────
+      - name: Install backend dependencies
+        working-directory: backend
+        run: npm ci
+
+      - name: Package Windows .exe
+        working-directory: backend
+        run: npx pkg server.js --targets node18-win-x64 --output ../dist/wled-buzzer.exe
+        shell: pwsh
+
+      # ── Assemble dist/ folder ────────────────────────────────────────────
+      - name: Copy frontend assets to dist/public
+        run: |
+          New-Item -ItemType Directory -Force -Path dist/public
+          Copy-Item -Recurse frontend/dist/* dist/public/
+          # Include add-hosts.bat so end-users can set up HTTPS from the dist folder
+          Copy-Item add-hosts.bat dist/add-hosts.bat
+          # Include config.json so end-users can edit ports / ledfxUrl
+          Copy-Item backend/config.json dist/config.json
+        shell: pwsh
+
+      # ── Zip ──────────────────────────────────────────────────────────────
+      - name: Create release zip
+        run: |
+          Rename-Item dist wled-buzzer
+          Compress-Archive -Path wled-buzzer -DestinationPath "${{ steps.meta.outputs.zip }}"
+          Write-Host "Contents:"
+          Get-ChildItem -Recurse wled-buzzer
+        shell: pwsh
+
+      # ── Publish GitHub Release ───────────────────────────────────────────
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.meta.outputs.tag }}
+          name: ${{ github.event.head_commit.message }}
+          files: ${{ steps.meta.outputs.zip }}
+          body: |
+            ## Installation
+            1. Download and unzip `${{ steps.meta.outputs.zip }}`
+            2. Double-click `wled-buzzer.exe`
+            3. The browser opens automatically at `http://localhost:1303`
+
+            **Requires:** Windows, local Wi-Fi network with WLED buzzers
+
+            ---
+            Built from [`${{ github.sha }}`](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})

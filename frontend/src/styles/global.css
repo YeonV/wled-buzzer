@@ -1,0 +1,1099 @@
+/* ── Reset & Base ──────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* ── Core palette ── */
+  --c-bg-idle:    #0d0d1a;
+  --c-bg-winner:  #001a00;
+  --c-accent:     #ffe066;
+  --c-accent-contrast: var(--c-bg-idle, #000);
+  --c-green:      #00ff88;
+  --c-red:        #dc2626;
+  --c-white:      #ffffff;
+  --c-muted:      rgba(255,255,255,0.45);
+
+  /* ── Mode / semantic colors ── */
+  --c-orange:  #ff8822;    /* reflex / elimination */
+  --c-blue:    #5ab0ff;    /* info / scan */
+  --c-sky:     #00b4ff;    /* precision cue */
+  --c-cyan:    #00e5ff;    /* sport timer */
+  --c-gold:    #ffd700;    /* survivor / rank gold */
+  --c-bomb:    #ff5544;    /* bomb timer */
+  --c-correct: #00dc50;    /* correct answer */
+  --c-pts-pos: #7dffb0;    /* positive points */
+  --c-pts-neg: #ff7d7d;    /* negative points */
+  --c-penalty: #ff7766;    /* false start / abort */
+  --c-warning: #ffcc44;    /* timing-warm / elim timer */
+  --c-hot:     #ff6b35;    /* timing-hot */
+
+  /* ── Dark backgrounds ── */
+  --c-bg-dark:        #080810;    /* base dark (idle gradient, setup) */
+  --c-bg-idle-glow:   #0d1230;    /* radial glow centre on idle screen */
+  --c-bg-panel:       #1a1a2e;    /* questions editor panel */
+  --c-bg-precision:   #001832;
+  --c-bg-elimination: #1a0a00;
+  --c-bg-bomb-mode:   #1a0000;
+  --c-bg-survivor:    #1a1500;
+  --c-bg-timer:       #001a1a;
+
+  /* ── Component glows (overrideable per-theme) ── */
+  --c-setup-screen-glow: rgba(0, 30, 100, 0.25);   /* ambient behind setup card */
+  --c-setup-frame-glow:  rgba(0, 30, 140, 0.18);   /* outer glow on setup frame */
+  --c-setup-right-glow:  rgba(0, 50, 180, 0.18);   /* radial in start-game panel */
+  --c-modal-bg:          rgba(14, 14, 28, 0.92);   /* settings panel surface */
+
+  /* ── Glass / frosted layers ── */
+  --glass-1:        rgba(255,255,255,0.05);   /* subtle surface */
+  --glass-2:        rgba(255,255,255,0.08);   /* hover / leader emphasis */
+  --glass-3:        rgba(255,255,255,0.12);   /* stronger surface */
+  --glass-border:   rgba(255,255,255,0.10);   /* standard 1px border */
+  --glass-border-s: rgba(255,255,255,0.15);   /* stronger border */
+
+  /* ── Border radius scale ── */
+  --r-pill:  8px;   /* pills / full-round buttons */
+  /* --r-pill:  999px;   /* pills / full-round buttons */
+  --r-xl:     28px;   /* display / TV-mode overlays */
+  --r-panel:  20px;   /* modal panels */
+  --r-card:   16px;   /* cards & result boxes */
+  --r-list:   12px;   /* list rows & small containers */
+  --r-btn:     8px;   /* buttons & form inputs */
+  --r-micro:   6px;   /* badges & tiny controls */
+
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Theme: Jungle
+   Apply via <html data-theme="jungle">
+   ══════════════════════════════════════════════════════════════════════════ */
+[data-theme="jungle"] {
+  /* ── Core palette ── */
+  --c-bg-idle:    #080f08;
+  --c-bg-winner:  #002200;
+  --c-accent:     #a8ff3e;
+  --c-green:      #00ff88;
+  --c-red:        #dc2626;
+  --c-white:      #f0ffe8;
+  --c-muted:      rgba(180,255,140,0.5);
+
+  /* ── Mode / semantic overrides ── */
+  --c-orange:  #ffaa00;
+  --c-sky:     #00e5b0;
+  --c-cyan:    #00ffcc;
+  --c-gold:    #e8d44d;
+  --c-correct: #39ff14;
+  --c-pts-pos: #aaff66;
+  --c-warning: #ffe566;
+
+  /* ── Dark backgrounds ── */
+  --c-bg-dark:        #040a04;
+  --c-bg-idle-glow:   #0a1f0a;    /* forest-green glow centre */
+  --c-bg-panel:       #0a1f0a;
+  --c-bg-precision:   #041a10;
+  --c-bg-elimination: #1a0f00;
+  --c-bg-bomb-mode:   #1a0800;
+  --c-bg-survivor:    #0f1a04;
+  --c-bg-timer:       #041a10;
+
+  --c-setup-screen-glow: rgba(20, 100, 40, 0.20);
+  --c-setup-frame-glow:  rgba(10, 120, 40, 0.18);
+  --c-setup-right-glow:  rgba(20, 140, 60, 0.18);
+  --c-modal-bg:          rgba(4, 16, 4, 0.94);
+
+  /* ── Glass / frosted layers (green-tinted) ── */
+  --glass-1:        rgba(80,255,80,0.04);
+  --glass-2:        rgba(80,255,80,0.07);
+  --glass-3:        rgba(80,255,80,0.11);
+  --glass-border:   rgba(80,255,80,0.09);
+  --glass-border-s: rgba(80,255,80,0.16);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Theme: Rosé  ·  Soft pinks, champagne golds, Bridgerton vibes
+   Apply via <html data-theme="rose">
+   ══════════════════════════════════════════════════════════════════════════ */
+[data-theme="rose"] {
+  /* ── Core palette ── */
+  --c-bg-idle:    #160a10;
+  --c-bg-winner:  #1a0015;
+  --c-accent:     #ff85c8;    /* candy pink */
+  --c-green:      #00ff88;    /* coral-pink -> unified success green */
+  --c-red:        #dc2626;
+  --c-white:      #fff0f6;
+  --c-muted:      rgba(255,192,203,0.5);
+
+  /* ── Mode / semantic overrides ── */
+  --c-orange:  #ffaa88;    /* peach / apricot */
+  --c-sky:     #ffb3d9;    /* baby pink */
+  --c-cyan:    #ffcce8;    /* petal pink */
+  --c-gold:    #f5d0a9;    /* champagne gold */
+  --c-correct: #ff85aa;
+  --c-pts-pos: #ffb3cc;
+  --c-pts-neg: #ff7faa;
+  --c-warning: #ffd5a0;
+  --c-hot:     #ff4499;    /* hot magenta */
+
+  /* ── Dark backgrounds ── */
+  --c-bg-dark:        #0a0307;    /* deep mauve-black */
+  --c-bg-idle-glow:   #2a0d1a;    /* rose glow centre */
+  --c-bg-panel:       #1a0812;
+  --c-bg-precision:   #180518;
+  --c-bg-elimination: #1a0a0a;
+  --c-bg-bomb-mode:   #1a000d;
+  --c-bg-survivor:    #1a0d14;
+  --c-bg-timer:       #100818;
+
+  --c-setup-screen-glow: rgba(180, 20, 80, 0.18);
+  --c-setup-frame-glow:  rgba(200, 10, 90, 0.16);
+  --c-setup-right-glow:  rgba(220, 30, 110, 0.18);
+  --c-modal-bg:          rgba(22, 4, 14, 0.94);
+
+  /* ── Glass / frosted layers (rose-tinted) ── */
+  --glass-1:        rgba(255,100,160,0.04);
+  --glass-2:        rgba(255,100,160,0.07);
+  --glass-3:        rgba(255,100,160,0.11);
+  --glass-border:   rgba(255,100,160,0.09);
+  --glass-border-s: rgba(255,100,160,0.17);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Theme: Rosé Light  ·  Daylight Bridgerton — cream, blush & deep magenta
+   Apply via <html data-theme="rose-light">
+   ══════════════════════════════════════════════════════════════════════════ */
+[data-theme="rose-light"] {
+  /* ── Core palette ── */
+  --c-bg-idle:    #fdf0f7;    /* blush cream base */
+  --c-bg-winner:  #f0fff4;    /* minty win */
+  --c-accent:     #be005a;    /* deep magenta (readable on cream) */
+  --c-accent-contrast: var(--c-white);
+  --c-green:      #00ff88;    /* forest green -> unified success green */
+  --c-red:        #dc2626;
+  --c-white:      #1a0010;    /* near-black plum — body text */
+  --c-muted:      rgba(100, 0, 50, 0.5);
+
+  /* ── Mode / semantic overrides ── */
+  --c-orange:  #b84400;    /* terracotta */
+  --c-blue:    #00549a;    /* deep sapphire */
+  --c-sky:     #005f80;    /* teal ink */
+  --c-cyan:    #006e7a;    /* muted cyan ink */
+  --c-gold:    #8a5e00;    /* antique gold */
+  --c-bomb:    #cc002a;
+  --c-correct: #007540;
+  --c-pts-pos: #004d28;
+  --c-pts-neg: #cc003a;
+  --c-penalty: #aa0033;
+  --c-warning: #9a6000;
+  --c-hot:     #be0060;
+
+  /* ── Light backgrounds ── */
+  --c-bg-dark:        #f5e0ef;    /* soft mauve — "dark" is just dusky rose */
+  --c-bg-idle-glow:   #f9c8e8;    /* warm blush glow */
+  --c-bg-panel:       #fdf5fa;    /* near-white panel bg */
+  --c-bg-precision:   #e8f0ff;    /* pale periwinkle */
+  --c-bg-elimination: #fff3e8;    /* pale apricot */
+  --c-bg-bomb-mode:   #ffe8ee;    /* pale rose */
+  --c-bg-survivor:    #fffbe8;    /* pale champagne */
+  --c-bg-timer:       #e8faff;    /* pale sky */
+
+  /* ── Component glows ── */
+  --c-setup-screen-glow: rgba(200, 50, 130, 0.10);
+  --c-setup-frame-glow:  rgba(200, 50, 130, 0.12);
+  --c-setup-right-glow:  rgba(210, 80, 150, 0.14);
+  --c-modal-bg:          rgba(253, 240, 247, 0.97);   /* light modal! */
+
+  /* ── Glass layers (warm rose, subtle) ── */
+  --glass-1:        rgba(180, 0, 80, 0.04);
+  --glass-2:        rgba(180, 0, 80, 0.07);
+  --glass-3:        rgba(180, 0, 80, 0.10);
+  --glass-border:   rgba(180, 0, 80, 0.09);
+  --glass-border-s: rgba(180, 0, 80, 0.16);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Theme: Crystal  ·  Deep violet, lavender, dreamy femininity
+   Apply via <html data-theme="crystal">
+   ══════════════════════════════════════════════════════════════════════════ */
+[data-theme="crystal"] {
+  /* ── Core palette ── */
+  --c-bg-idle:    #0d0a1a;
+  --c-bg-winner:  #120028;
+  --c-accent:     #c084fc;    /* lilac violet */
+  --c-green:      #00ff88;    /* lavender -> unified success green */
+  --c-red:        #dc2626;    /* rose-red */
+  --c-white:      #f5f0ff;    /* lavender-white */
+  --c-muted:      rgba(200,180,255,0.5);
+
+  /* ── Mode / semantic overrides ── */
+  --c-orange:  #e879f9;    /* fuchsia */
+  --c-sky:     #818cf8;    /* periwinkle blue */
+  --c-cyan:    #c4b5fd;    /* soft violet */
+  --c-gold:    #e0aaff;    /* pale amethyst */
+  --c-correct: #a78bfa;
+  --c-pts-pos: #c4b5fd;
+  --c-pts-neg: #f472b6;
+  --c-warning: #fbbf24;
+  --c-hot:     #e879f9;    /* electric fuchsia */
+
+  /* ── Dark backgrounds ── */
+  --c-bg-dark:        #050308;    /* near-black purple */
+  --c-bg-idle-glow:   #1a0840;    /* deep indigo glow */
+  --c-bg-panel:       #0f0826;
+  --c-bg-precision:   #08051a;
+  --c-bg-elimination: #1a001a;
+  --c-bg-bomb-mode:   #180018;
+  --c-bg-survivor:    #10082a;
+  --c-bg-timer:       #06081f;
+
+  --c-setup-screen-glow: rgba(120, 20, 220, 0.20);
+  --c-setup-frame-glow:  rgba(130, 10, 230, 0.18);
+  --c-setup-right-glow:  rgba(140, 30, 240, 0.18);
+  --c-modal-bg:          rgba(8, 4, 20, 0.95);
+
+  /* ── Glass / frosted layers (violet-tinted) ── */
+  --glass-1:        rgba(160,100,255,0.04);
+  --glass-2:        rgba(160,100,255,0.07);
+  --glass-3:        rgba(160,100,255,0.11);
+  --glass-border:   rgba(160,100,255,0.09);
+  --glass-border-s: rgba(160,100,255,0.16);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Theme: Aurora  ·  Northern lights  ·  Electric teal × deep indigo
+   Claude's own design — ethereal, cosmic, alive
+   Apply via <html data-theme="aurora">
+   ══════════════════════════════════════════════════════════════════════════ */
+[data-theme="aurora"] {
+  /* ── Core palette ── */
+  --c-bg-idle:    #04020e;    /* void-space near-black */
+  --c-bg-winner:  #001a14;    /* deep aurora-teal win */
+  --c-accent:     #00f5d4;    /* electric aurora teal */
+  --c-green:      #00ff88;    /* teal -> unified success green */
+  --c-red:        #dc2626;    /* aurora magenta-crimson */
+  --c-white:      #e8f8ff;    /* cold starlight white */
+  --c-muted:      rgba(140,230,255,0.45);
+
+  /* ── Mode / semantic overrides ── */
+  --c-orange:  #ff9f40;    /* amber aurora flare */
+  --c-blue:    #48b9ff;    /* glacial ice blue */
+  --c-sky:     #2de2e6;    /* cyan aurora ribbon */
+  --c-cyan:    #00f5d4;    /* aurora teal */
+  --c-gold:    #f0e06a;    /* starlight gold */
+  --c-bomb:    #ff2d6b;    /* aurora magenta */
+  --c-correct: #00f5d4;
+  --c-pts-pos: #7fffd4;    /* aquamarine */
+  --c-pts-neg: #ff7da5;    /* aurora rose */
+  --c-penalty: #ff5577;
+  --c-warning: #f7e46a;
+  --c-hot:     #ff2d6b;
+
+  /* ── Dark backgrounds ── */
+  --c-bg-dark:        #020109;    /* deepest void */
+  --c-bg-idle-glow:   #080d45;    /* indigo aurora pulse */
+  --c-bg-panel:       #07051a;
+  --c-bg-precision:   #001a22;
+  --c-bg-elimination: #1a000e;
+  --c-bg-bomb-mode:   #1a0018;
+  --c-bg-survivor:    #001a0e;
+  --c-bg-timer:       #040a1e;
+
+  --c-setup-screen-glow: rgba(0, 200, 190, 0.18);
+  --c-setup-frame-glow:  rgba(0, 210, 200, 0.16);
+  --c-setup-right-glow:  rgba(0, 220, 200, 0.18);
+  --c-modal-bg:          rgba(2, 1, 14, 0.95);
+
+  /* ── Glass / frosted layers (aurora-teal tinted) ── */
+  --glass-1:        rgba(0,245,212,0.035);
+  --glass-2:        rgba(0,245,212,0.065);
+  --glass-3:        rgba(0,245,212,0.10);
+  --glass-border:   rgba(0,245,212,0.08);
+  --glass-border-s: rgba(0,245,212,0.15);
+}
+
+
+/* ── Global styled select ──────────────────────────────────────────────────── */
+select {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: var(--r-btn);
+  color: var(--c-white);
+  font-size: 0.9rem;
+  padding: 0.3rem 0.5rem;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,0.45)' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.55rem center;
+  padding-right: 1.8rem;
+}
+select:hover  { border-color: rgba(255,255,255,0.35); }
+select:focus  { border-color: var(--c-accent); box-shadow: 0 0 0 3px rgba(255,220,0,0.12); }
+select option {
+  background: #1e1e2e;
+  color: var(--c-white);
+  padding: 4px 8px;
+}
+
+/* ── MUI-style outlined select ─────────────────────────────────────────────── */
+
+.info-popover {
+  background: var(--c-bg-panel);
+  border: 1px solid var(--glass-border-s);
+  color: var(--c-white);
+  padding: 0.6rem;
+  border-radius: 8px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+  font-size: 0.86rem;
+}
+.setup-info-cell { white-space: nowrap; padding: 0.4rem; }
+
+
+.outlined-select {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.outlined-select select {
+  font-size: 0.92rem;
+  padding: 0.7rem 2rem 0.7rem 0.75rem;
+  border-radius: 6px;
+  min-width: 7rem;
+  border: 1.5px solid rgba(255,255,255,0.22);
+  background-color: rgba(255,255,255,0.05);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,0.45)' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.6rem center;
+  transition: border-color 0.18s, box-shadow 0.18s;
+}
+
+.outlined-select select:hover  { border-color: rgba(255,255,255,0.5); }
+.outlined-select select:focus  {
+  border-color: var(--c-accent);
+  box-shadow: 0 0 0 3px rgba(255,220,0,0.13);
+  outline: none;
+}
+
+/* Floating label — always raised since a select always has a value */
+.outlined-select label {
+  position: absolute;
+  top: 0;
+  left: 0.6rem;
+  transform: translateY(-50%);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--c-muted);
+  background: var(--c-bg-idle);
+  padding: 0 0.3rem;
+  pointer-events: none;
+  white-space: nowrap;
+  line-height: 1;
+  /* cut into the border like MUI notch */
+  z-index: 1;
+}
+
+.outlined-select select:focus ~ label {
+  color: var(--c-accent);
+}
+
+/* ── Outlined frame (matches outlined-select border/label for arbitrary content) */
+.outlined-frame {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 0.75rem;
+  border-radius: 6px;
+  border: 1.5px solid rgba(255,255,255,0.22);
+  background-color: rgba(255,255,255,0.05);
+  min-height: 2.55rem;
+  min-width: 5.5rem;
+  box-sizing: border-box;
+}
+.outlined-frame > label {
+  position: absolute;
+  top: 0;
+  left: 0.6rem;
+  transform: translateY(-50%);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--c-muted);
+  background: var(--c-bg-panel);
+  padding: 0 0.3rem;
+  pointer-events: none;
+  white-space: nowrap;
+  line-height: 1;
+  z-index: 1;
+}
+
+/* ── MUI-style outlined number input (matches outlined-select) ───────────── */
+.outlined-input {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.outlined-input input[type=number] {
+  font-size: 0.92rem;
+  padding: 0.7rem 0.75rem;
+  border-radius: 6px;
+  min-width: 5.6rem;
+  max-width: 7rem;
+  border: 1.5px solid rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.05);
+  color: var(--c-white);
+  transition: border-color 0.18s, box-shadow 0.18s;
+  -moz-appearance: textfield;
+}
+.outlined-input input[type=number]::-webkit-inner-spin-button,
+.outlined-input input[type=number]::-webkit-outer-spin-button { opacity: 0.4; }
+.outlined-input input[type=number]:hover  { border-color: rgba(255,255,255,0.5); }
+.outlined-input input[type=number]:focus  {
+  border-color: var(--c-accent);
+  box-shadow: 0 0 0 3px rgba(255,220,0,0.13);
+  outline: none;
+}
+
+.outlined-input label {
+  position: absolute;
+  top: 0;
+  left: 0.6rem;
+  transform: translateY(-50%);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--c-muted);
+  background: var(--c-bg-idle);
+  padding: 0 0.3rem;
+  pointer-events: none;
+  white-space: nowrap;
+  line-height: 1;
+  z-index: 1;
+}
+
+.outlined-input input[type=number]:focus ~ label {
+  color: var(--c-accent);
+}
+
+body { background: var(--c-bg-idle); color: var(--c-white); overflow: hidden; }
+
+#root { width: 100vw; height: 100vh; }
+
+/* ── Fullscreen container ──────────────────────────────────────────────────── */
+.fullscreen {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  transition: background 0.6s ease;
+  position: relative;
+}
+.fullscreen--moderator {
+  overflow-y: auto;
+  height: auto;
+  min-height: 100vh;
+}
+
+/* Allow scroll to reach through root when moderator view is active */
+body:has(.fullscreen--moderator) {
+  overflow: auto;
+}
+body:has(.fullscreen--moderator) #root {
+  height: auto;
+  min-height: 100vh;
+}
+body:has(.fullscreen--moderator) .idle-screen {
+  overflow: visible;
+  overflow-x: clip;
+}
+
+.state-idle {
+  background: radial-gradient(ellipse 90% 70% at 50% 60%, var(--c-bg-idle-glow) 0%, var(--c-bg-dark) 100%);
+}
+.state-winner {
+  background: var(--c-bg-winner);
+  animation: flash-bg 0.15s ease 3;
+}
+
+/* ── Connection dot ────────────────────────────────────────────────────────── */
+.conn-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+.conn-dot.online  { background: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,0.2), 0 0 12px #22c55e; }
+.conn-dot.offline { background: #ff4444; box-shadow: 0 0 0 3px rgba(255,68,68,0.15),  0 0 12px #ff4444; }
+
+@keyframes breathe {
+  0%, 100% { opacity: 1;   transform: scale(1); }
+  50%       { opacity: 0.7; transform: scale(0.97); }
+}
+
+/* Generic button base to replace duplicated button rules gradually */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  width: fit-content;
+  padding: 0.55rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: var(--r-btn);
+  background: rgba(255,255,255,0.07);
+  color: var(--c-white);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s, filter 0.15s;
+  border: none;
+  line-height: 1;
+}
+
+/* Default hover for base buttons (non-lift) — exclude accent buttons which manage their own hover */
+.btn:not(.btn--accent):hover {
+  background: rgba(255,255,255,0.12);
+}
+
+/* Icon variant modifier: use with `btn btn--icon` for compact icon-only buttons.
+   Keep existing `.icon-btn` classes as aliases for backward compatibility. */
+.btn--icon {
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.07);
+  color: var(--c-white);
+}
+.btn--icon:hover { background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.35); }
+/* Ghost variant: minimal/transparent button (useful in lists, panels) */
+.btn--ghost {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.85);
+}
+.btn--ghost:hover { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.12); }
+
+/* Small modifier: reduces padding and type size for compact UI */
+.btn--small {
+  padding: 0.15rem 0.4rem;
+  font-size: 0.78rem;
+  border-radius: var(--r-micro);
+}
+
+/* Ensure small ghost buttons match small accent sizing for visual parity */
+.btn--small.btn--ghost {
+  padding: 0.15rem 0.3rem;
+  font-size: 0.85rem;
+}
+
+.btn--small svg {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+/* Ensure small buttons still show hover feedback */
+.btn--small:hover { background: rgba(255,255,255,0.12); }
+/* When combined with icon variant make it slightly smaller */
+.btn--small.btn--icon {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+/* Stretch modifier: make button expand to available width */
+.btn--stretch {
+  width: 100%;
+}
+
+/* Lift modifier: gives the button a subtle elevated appearance on hover/active
+   for prominence (used on primary action surfaces). */
+.btn--lift {
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.btn--lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(6,16,30,0.35);
+}
+.btn--lift:active {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(6,16,30,0.28);
+}
+.btn--lift:focus {
+  outline: none;
+  box-shadow: 0 10px 30px rgba(6,16,30,0.25), 0 0 0 4px rgba(88,101,242,0.08);
+}
+
+/* Accent modifiers: solid accent and hover-accent variants
+   - `.btn--accent` is a solid accent button (can combine with `btn--small`, `btn--icon`)
+   - `.btn--accent.btn--ghost` keeps a ghost/outline appearance using the accent color
+   - `.btn--hover--accent` applies the accent only on hover (works with ghost/solid/small/icon)
+*/
+.btn--accent {
+  background: var(--c-accent);
+  color: var(--c-accent-contrast, var(--c-bg-idle, #000));
+  border: none;
+}
+.btn.btn--accent:hover {
+  filter: brightness(0.96);
+  background: var(--c-accent);
+  color: var(--c-accent-contrast, var(--c-bg-idle, #000));
+  border-color: transparent;
+}
+
+.btn--accent.btn--ghost {
+  background: transparent;
+  border: 1px solid var(--c-accent);
+  color: var(--c-accent);
+}
+.btn--accent.btn--ghost:hover {
+  background: rgba(255,255,255,0.04);
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+}
+
+/* Hover-accent: apply accent styling only on hover; compatible with ghost/solid */
+.btn--hover--accent:not(.btn--ghost):hover {
+  background: var(--c-accent);
+  color: var(--c-bg-idle, #000);
+  border-color: var(--c-accent);
+}
+.btn--ghost.btn--hover--accent:hover {
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+  background: rgba(255,255,255,0.02);
+}
+
+/* Preserve legacy filled-accent hover while offering icon/border tint variant */
+.btn--hover--accent-fill:not(.btn--ghost):hover {
+  background: var(--c-accent);
+  color: var(--c-bg-idle, #000);
+  border-color: var(--c-accent);
+}
+.btn--ghost.btn--hover--accent-fill:hover {
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+  background: rgba(255,255,255,0.02);
+}
+/* Icon-specific hover: tint border/icon, avoid filling background */
+.btn--hover--accent.btn--icon:hover,
+.btn--hover--accent.btn--icon:focus {
+  background: transparent;
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+  filter: none;
+  box-shadow: 0 0 6px rgba(88,101,242,0.12);
+}
+
+/* Small + accent combinations: keep compact sizing but readable contrast */
+.btn--small.btn--accent {
+  font-size: 0.85rem;
+  padding: 0.15rem 0.3rem;
+}
+.btn--small.btn--accent.btn--icon { width: 1.6rem; height: 1.6rem; }
+
+/* Informational / success / error variants */
+.btn--info {
+  background: var(--c-blue, #5ab0ff);
+  color: var(--c-bg-idle, #000);
+  border: none;
+}
+.btn.btn--info:hover {
+  filter: brightness(0.96);
+  background: var(--c-blue, #5ab0ff);
+  color: var(--c-bg-idle, #000);
+  border-color: transparent;
+}
+.btn--info.btn--ghost {
+  background: transparent;
+  border: 1px solid var(--c-blue, #5ab0ff);
+  color: var(--c-blue, #5ab0ff);
+}
+.btn--info.btn--ghost:hover {
+  background: rgba(255,255,255,0.04);
+  border-color: var(--c-blue, #5ab0ff);
+  color: var(--c-blue, #5ab0ff);
+}
+.btn--hover--info:not(.btn--ghost):hover {
+  background: var(--c-blue, #5ab0ff);
+  color: var(--c-white);
+}
+.btn--ghost.btn--hover--info:hover {
+  border-color: var(--c-blue, #5ab0ff);
+  color: var(--c-blue, #5ab0ff);
+  background: rgba(255,255,255,0.02);
+}
+.btn--hover--info-fill:not(.btn--ghost):hover {
+  background: var(--c-blue, #5ab0ff);
+  color: var(--c-white);
+}
+.btn--ghost.btn--hover--info-fill:hover {
+  border-color: var(--c-blue, #5ab0ff);
+  color: var(--c-blue, #5ab0ff);
+  background: rgba(255,255,255,0.02);
+}
+/* Icon-specific hover: tint border/icon for info buttons */
+.btn--hover--info.btn--icon:hover,
+.btn--hover--info.btn--icon:focus {
+  background: transparent;
+  border-color: var(--c-blue, #5ab0ff);
+  color: var(--c-blue, #5ab0ff);
+  filter: none;
+  box-shadow: 0 0 6px rgba(90,176,255,0.12);
+}
+.btn--small.btn--info { font-size: 0.85rem; padding: 0.15rem 0.3rem; }
+.btn--small.btn--info.btn--icon { width: 1.6rem; height: 1.6rem; }
+
+.btn--error {
+  background: var(--c-red, #ff4040);
+  color: var(--c-white);
+  border: none;
+}
+.btn.btn--error:not(.btn--ghost):hover {
+  filter: brightness(0.96);
+  background: var(--c-red, #ff4040);
+  color: var(--c-white);
+  border-color: transparent;
+}
+.btn--error.btn--ghost {
+  background: transparent;
+  border: 1px solid var(--c-red, #ff4040);
+  color: var(--c-red, #ff4040);
+}
+.btn--error.btn--ghost:hover {
+  background: rgba(255,255,255,0.04);
+  border-color: var(--c-red, #ff4040);
+  color: var(--c-red, #ff4040);
+}
+
+/* Stronger ghost override for semantic ghosts to ensure transparent background
+   and outline appearance even if semantic rules apply earlier. */
+.btn.btn--error.btn--ghost,
+.btn--error.btn--ghost {
+  background: transparent;
+  color: var(--c-red, #ff4040);
+  border: 1px solid var(--c-red, #ff4040);
+  box-shadow: none;
+  filter: none;
+}
+.btn.btn--error.btn--ghost:hover,
+.btn--error.btn--ghost:hover {
+  background: rgba(255,255,255,0.04);
+  border-color: var(--c-red, #ff4040);
+  color: var(--c-red, #ff4040);
+  box-shadow: none;
+}
+.btn--hover--error-fill:not(.btn--ghost):hover {
+  background: var(--c-red, #ff4040);
+  color: var(--c-white);
+}
+.btn--ghost.btn--hover--error-fill:hover {
+  border-color: var(--c-red, #ff4040);
+  color: var(--c-red, #ff4040);
+  background: rgba(255,255,255,0.02);
+}
+/* Icon-specific hover: keep unhovered state identical but tint border/icon on hover */
+.btn--hover--error.btn--icon:hover,
+.btn--hover--error.btn--icon:focus {
+  background: transparent; /* avoid filling the background for icon buttons */
+  border-color: var(--c-red, #ff4040);
+  color: var(--c-red, #ff4040);
+  filter: none;
+  box-shadow: 0 0 6px rgba(255,64,64,0.12);
+}
+.btn--small.btn--error { font-size: 0.85rem; padding: 0.15rem 0.3rem; }
+.btn--small.btn--error.btn--icon { width: 1.6rem; height: 1.6rem; }
+
+.btn--success {
+  background: var(--c-green, #00ff88);
+  color: var(--c-bg-idle, #000);
+  border: none;
+}
+.btn.btn--success:not(.btn--ghost):hover {
+  filter: brightness(0.96);
+  background: var(--c-green, #00ff88);
+  color: var(--c-bg-idle, #000);
+  border-color: transparent;
+}
+.btn--success.btn--ghost {
+  background: transparent;
+  border: 1px solid var(--c-green, #00ff88);
+  color: var(--c-green, #00ff88);
+}
+.btn--success.btn--ghost:hover {
+  background: rgba(255,255,255,0.04);
+  border-color: var(--c-green, #00ff88);
+  color: var(--c-green, #00ff88);
+}
+
+/* Stronger ghost override for success variant */
+.btn.btn--success.btn--ghost,
+.btn--success.btn--ghost {
+  background: transparent;
+  color: var(--c-green, #00ff88);
+  border: 1px solid var(--c-green, #00ff88);
+  box-shadow: none;
+  filter: none;
+}
+.btn.btn--success.btn--ghost:hover,
+.btn--success.btn--ghost:hover {
+  background: rgba(255,255,255,0.04);
+  border-color: var(--c-green, #00ff88);
+  color: var(--c-green, #00ff88);
+  box-shadow: none;
+}
+
+/* Prevent any semantic ghost from animating size or showing shadows on hover.
+   Explicitly limit transitions to color/border/background only. */
+.btn.btn--ghost:not(.btn--icon),
+.btn--info.btn--ghost:not(.btn--icon),
+.btn--accent.btn--ghost:not(.btn--icon),
+.btn--error.btn--ghost:not(.btn--icon),
+.btn--success.btn--ghost:not(.btn--icon) {
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.btn.btn--ghost:not(.btn--icon):hover,
+.btn--info.btn--ghost:not(.btn--icon):hover,
+.btn--accent.btn--ghost:not(.btn--icon):hover,
+.btn--error.btn--ghost:not(.btn--icon):hover,
+.btn--success.btn--ghost:not(.btn--icon):hover {
+  transform: none !important;
+  box-shadow: none !important;
+  /* keep border color stable and match text color */
+  border-color: currentColor !important;
+}
+
+/* Ensure generic button:hover rules don't override ghost border color */
+.btn.btn--ghost:hover { border-color: currentColor !important; }
+.btn--hover--success:not(.btn--ghost):hover {
+  background: var(--c-green, #00ff88);
+  color: var(--c-bg-idle, #000);
+}
+.btn--ghost.btn--hover--success:hover {
+  border-color: var(--c-green, #00ff88);
+  color: var(--c-green, #00ff88);
+  background: rgba(255,255,255,0.02);
+}
+.btn--hover--success-fill:not(.btn--ghost):hover {
+  background: var(--c-green, #00ff88);
+  color: var(--c-bg-idle, #000);
+}
+.btn--ghost.btn--hover--success-fill:hover {
+  border-color: var(--c-green, #00ff88);
+  color: var(--c-green, #00ff88);
+  background: rgba(255,255,255,0.02);
+}
+/* Icon-specific hover: tint border/icon for success buttons */
+.btn--hover--success.btn--icon:hover,
+.btn--hover--success.btn--icon:focus {
+  background: transparent;
+  border-color: var(--c-green, #00ff88);
+  color: var(--c-green, #00ff88);
+  filter: none;
+  box-shadow: 0 0 6px rgba(0,255,136,0.12);
+}
+.btn--small.btn--success { font-size: 0.85rem; padding: 0.15rem 0.3rem; }
+.btn--small.btn--success.btn--icon { width: 1.6rem; height: 1.6rem; }
+
+/* Opt-out hover modifier: disables hover feedback when present */
+/* (removed `.btn--no-hover`) */
+
+/* Fixed-width helper: force a 7rem minimum width for buttons that require fixed sizing */
+.btn--fw {
+  min-width: 7rem;
+  /* slightly increased vertical padding for fixed-width buttons */
+  padding: 0.35rem 1.4rem;
+}
+
+/* Keep small variant compact but still satisfy fixed-width when combined */
+.btn--small.btn--fw {
+  /* compact horizontal spacing but increased vertical padding when fixed-width is required */
+  padding: 0.25rem 0.3rem;
+  font-size: 0.85rem;
+  min-width: 7rem;
+}
+/* Keep small variants compact even when broader ghost rules apply */
+.btn--small.btn--ghost {
+  padding: 0.15rem 0.3rem;
+  font-size: 0.85rem;
+}
+/* Legacy `.reset-scores-btn` removed — replaced by `.btn` variants in JSX */
+
+
+/* ── Moderator / phone optimisations ─────────────────────────────────────── */
+/* Global: suppress focus ring and tap highlight on all interactive elements */
+*:focus,
+*:focus-visible { outline: none !important; box-shadow: none !important; }
+button {
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+button:focus,
+button:focus-visible { outline: none; box-shadow: none; }
+
+@media (max-width: 600px) {
+  /* Prevent double-tap zoom on buttons */
+  button { touch-action: manipulation; }
+
+  /* Top bar: tight single row */
+  .top-bar--moderator { padding: 0.5rem 0.75rem; gap: 0.5rem; }
+  /* top-bar moderator compact spacing handled by .top-bar-left/.btn modifiers */
+
+  /* Loop buttons: compact single line */
+  .loop-btns { gap: 0.4rem; flex-wrap: wrap; }
+  .loop-btns-dock:not(.loop-btns-dock--fixed) { margin-top: 0.75rem; }
+
+  /* Winner screen: stack everything, bigger touch targets */
+  .winner-screen { padding: 1rem 0.75rem; justify-content: flex-start; padding-top: 1.5rem; overflow-y: auto; }
+  .trophy { font-size: clamp(3rem, 18vw, 6rem); }
+  .winner-name { font-size: clamp(2rem, 12vw, 4rem); }
+
+  /* Judge buttons: full-width, tall */
+  .judge-controls { width: 100%; max-width: 360px; }
+  .verdict-btns { flex-direction: column; gap: 0.75rem; }
+  .btn.btn--success:not(.btn--ghost), .btn.btn--error:not(.btn--ghost) {
+    width: 100%;
+    padding: 1.1rem;
+    font-size: 1.3rem;
+  }
+  .reset-btn { width: 100%; margin-top: 0.75rem; }
+  .points-row { justify-content: center; }
+
+  /* Question card: full width, readable */
+  .question-card { padding: 0.9rem 1rem; margin: 0.5rem 0; }
+  .question-text { font-size: 1.05rem; }
+  .question-answers { grid-template-columns: 1fr 1fr; font-size: 0.9rem; }
+  .reveal-btns { flex-direction: column; gap: 0.4rem; }
+  .reveal-btns .btn.btn--accent { padding: 0.55rem 1.2rem; font-size: 0.9rem; width: 100%; }
+
+  /* Idle screen: tight top, breathing room below scoreboard */
+  .idle-screen { justify-content: flex-start; padding-top: 0.25rem; overflow: hidden; }
+  .fullscreen--moderator .idle-screen { overflow: visible; overflow-x: clip; }
+  .idle-screen h1 { font-size: clamp(2rem, 10vw, 3.5rem); }
+  .idle-screen > .scoreboard { margin-top: 0; margin-bottom: 1.4rem; }
+  
+  .idle-mode-config { width: 100%; max-width: 340px; }
+  .mode-config-row { flex-wrap: wrap; justify-content: center; }
+
+  /* Scoreboard: slightly larger rows */
+  .scoreboard { width: 100%; }
+  .score-row { padding: 0.6rem 1rem; }
+  .score-name { font-size: 1rem; display: flex; align-items: center; gap: 0.3rem; }
+  .score-pts  { font-size: 1.1rem; }
+
+  /* ── Settings panel: full-screen on phone ─────────────────────────────── */
+  .settings-panel {
+    width: 100vw;
+    min-height: 100dvh;
+    border-radius: 0;
+    border: none;
+    padding: 1.4rem 1rem 2rem;
+    box-shadow: none;
+  }
+  .settings-panel h2 { font-size: 1.3rem; margin-bottom: 0.3rem; }
+  .settings-hint { font-size: 0.8rem; margin-bottom: 1rem; }
+
+  /* Table → card-per-row layout */
+  .name-table { display: block; }
+  .name-table thead { display: none; }
+  .name-table tbody { display: flex; flex-direction: column; gap: 0.6rem; }
+  .name-table tbody tr {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    grid-template-rows: auto;
+    gap: 0.4rem 0.5rem;
+    background: var(--glass-1);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: var(--r-card);
+    padding: 0.75rem 0.9rem;
+    align-items: center;
+  }
+  /* Device ID — hidden, name placeholder serves as label */
+  .name-table td.device-id { display: none; }
+  /* Name input — single row, fills space */
+  .name-table td:nth-child(2) { grid-column: 1; grid-row: 1; padding: 0 !important; }
+  .name-input { font-size: 1.05rem; padding: 0.55rem 0.8rem; }
+  /* Points — same row, compact fixed width */
+  .name-table td:nth-child(3) {
+    grid-column: 2;
+    grid-row: 1;
+    padding: 0 !important;
+    display: flex;
+    align-items: center;
+  }
+  .score-input { width: 4.2rem; padding: 0.55rem 0.45rem; font-size: 1rem; }
+  /* Remove btn — same row, rightmost */
+  .name-table td:nth-child(4) {
+    grid-column: 3;
+    grid-row: 1;
+    padding: 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  .remove-btn { font-size: 1rem; padding: 0 0.2rem; }
+
+  /* Auto-wrong row */
+  .auto-wrong-row { flex-wrap: wrap; gap: 0.4rem; justify-content: flex-start; }
+
+  /* Actions: stack into two rows */
+  .settings-actions { flex-direction: column; gap: 0.7rem; margin-top: 1rem; }
+  .settings-actions > .add-btn { width: 100%; padding: 0.65rem; font-size: 0.95rem; }
+  .settings-actions > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    width: 100%;
+  }
+  /* Layout for action buttons inside settings overlay — target `.btn` variants */
+  .settings-actions > div > .btn { flex: 1 1 45%; padding: 0.65rem 0.5rem; font-size: 0.85rem; text-align: center; }
+  /* smaller / ghost-style actions (e.g. cancel/save) should use `.btn--ghost` */
+  .settings-actions > div > .btn.btn--ghost { flex: 1 1 30%; padding: 0.65rem 0.5rem; font-size: 0.9rem; text-align: center; }
+}
+
+/* ── Icon + text alignment for all action buttons ─────────────────────────── */
+.btn:not(.btn--icon) {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+}
+
+.qe-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1.25rem;
+  border-top: 1px solid var(--glass-2);
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.qe-footer-left, .qe-footer-right {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.qe-btn {
+  border: none;
+  border-radius: var(--r-micro);
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: opacity 0.15s;
+}
+.qe-btn:disabled { opacity: 0.35; cursor: default; }
+.qe-btn-secondary {
+  background: var(--glass-2);
+  color: rgba(255,255,255,0.7);
+  border: 1px solid rgba(255,255,255,0.14);
+}
+.qe-btn-secondary:hover:not(:disabled) { background: rgba(255,255,255,0.13); color: var(--c-white); }
+

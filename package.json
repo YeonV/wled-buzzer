@@ -1,0 +1,60 @@
+{
+  "name": "wled-buzzer-monorepo",
+  "version": "0.0.9",
+  "description": "A self-contained wireless quiz buzzer system for game shows and events. Physical WLED-powered buzzers connect over Wi-Fi to a Node.js server that runs the game logic, hosts the MQTT broker, and serves a React scoreboard — all from a single `.exe` that runs offline with no internet required.",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "npx concurrently \"cd backend && npm i\" \"cd frontend && npm i\"",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "dev": "npx concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\"",
+    "build": "cd frontend && npm run build && cd ../backend && npm run package",
+    "build:backend": "cd backend && npm run package",
+    "build:frontend": "cd frontend && npm run build",
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:setup": "playwright test tests/setup.spec.js",
+    "test:setup:headed": "playwright test tests/setup.spec.js --headed",
+    "test:multi-client": "playwright test tests/multi-client.spec.js",
+    "test:multi-client:headed": "playwright test tests/multi-client.spec.js --headed",
+    "test:setup-scoreboard": "playwright test tests/setup-scoreboard.spec.js",
+    "test:setup-scoreboard:headed": "playwright test tests/setup-scoreboard.spec.js --headed",
+    "test:combined": "playwright test tests/combined.spec.js",
+    "test:combined:headed": "playwright test tests/combined.spec.js --headed",
+    "test:editor": "playwright test tests/standalone-editor.spec.js",
+    "test:editor:headed": "playwright test tests/standalone-editor.spec.js --headed",
+    "test:xeon": "playwright test custom-packs/xeon-gameshow/tests/xeon-features.spec.js",
+    "test:xeon:headed": "playwright test custom-packs/xeon-gameshow/tests/xeon-features.spec.js --headed",
+    "test:xeon-teams": "playwright test custom-packs/xeon-gameshow/tests/xeon-teams.spec.js",
+    "test:xeon-teams:headed": "playwright test custom-packs/xeon-gameshow/tests/xeon-teams.spec.js --headed",
+    "test:xeon-phase3": "playwright test custom-packs/xeon-gameshow/tests/xeon-phase3.spec.js",
+    "test:xeon-phase3:headed": "playwright test custom-packs/xeon-gameshow/tests/xeon-phase3.spec.js --headed",
+    "test:xeon-final": "playwright test custom-packs/xeon-gameshow/tests/xeon-final.spec.js",
+    "test:xeon-final:headed": "playwright test custom-packs/xeon-gameshow/tests/xeon-final.spec.js --headed",
+    "test:xeon-jeopardy": "playwright test custom-packs/xeon-gameshow/tests/xeon-jeopardy.spec.js",
+    "test:xeon-jeopardy:headed": "playwright test custom-packs/xeon-gameshow/tests/xeon-jeopardy.spec.js --headed",
+    "test:custom": "cross-env TEST_AVATAR_PACK=anime TEST_QUESTION_PACK=anime playwright test tests/combined.spec.js tests/setup-scoreboard.spec.js",
+    "test:custom:headed": "cross-env TEST_AVATAR_PACK=anime TEST_QUESTION_PACK=anime playwright test tests/combined.spec.js tests/setup-scoreboard.spec.js --headed",
+    "merge-videos": "node tests/merge-videos.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YeonV/wled-buzzer.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/YeonV/wled-buzzer/issues"
+  },
+  "homepage": "https://github.com/YeonV/wled-buzzer#readme",
+  "dependencies": {
+    "@playwright/test": "^1.58.2",
+    "ffmpeg-static": "^5.3.0",
+    "mqtt": "^5.15.0"
+  },
+  "devDependencies": {
+    "cross-env": "^10.1.0"
+  }
+}

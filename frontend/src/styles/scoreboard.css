@@ -1,0 +1,102 @@
+/* ── Dedicated scoreboard view (?view=scoreboard) ─────────────────────────── */
+.fullscreen--scoreboard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.fullscreen--scoreboard .scoreboard {
+  margin: 0;
+  width: min(800px, 90vw);
+  gap: 1rem;
+}
+.fullscreen--scoreboard .score-row {
+  padding: 0.8rem 1.6rem;
+  font-size: 1.2rem;
+  border-radius: var(--r-card);
+}
+.fullscreen--scoreboard .score-name {
+  font-size: 1.3rem;
+  gap: 0.6rem;
+}
+.fullscreen--scoreboard .score-pts {
+  font-size: 2.6rem;
+}
+
+/* ── ScoreboardBlade variant (buzzer cards + scores) ──────────────────────── */
+.sb-blade {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 3rem;
+  padding: 2rem;
+}
+.sb-blade__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  min-width: 240px;
+  transition: transform 0.3s, filter 0.3s;
+}
+.sb-blade__card--buzzing {
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 32px rgba(255, 210, 0, 0.5));
+  z-index: 2;
+}
+.sb-blade__card--dim {
+  opacity: 0.18;
+  transition: opacity 0.4s;
+}
+.sb-blade__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sb-blade__footer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+  background: var(--glass-1);
+  border: 1px solid var(--glass-2);
+  border-radius: var(--r-card);
+  padding: 0.4rem 1.2rem 0.4rem 5.5rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+.sb-blade__footer > .buzzer-root {
+  position: absolute;
+  left: -1.2rem;
+  top: calc(28% - 0.2rem);
+  transform: translateY(-50%);
+}
+.sb-blade__card--leader .sb-blade__footer {
+  border-color: rgba(255, 220, 0, 0.25);
+  background: var(--glass-2);
+}
+.sb-blade__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+  min-width: 0;
+}
+.sb-blade__name {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--c-white);
+}
+.sb-blade__pts {
+  font-weight: 900;
+  font-size: 2.4rem;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--c-green);
+  text-shadow: 0 0 20px rgba(0,255,136,0.35);
+}
+.sb-blade__pts.neg {
+  color: var(--c-red);
+  text-shadow: 0 0 20px rgba(255,64,64,0.35);
+}
+

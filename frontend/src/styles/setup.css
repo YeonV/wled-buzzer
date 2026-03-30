@@ -1,0 +1,699 @@
+/* ── Setup screen (replaces old init gate) ─────────────────────────────────── */
+.setup-screen {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--c-bg-dark);
+  /* subtle ambient radial behind the card */
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% 50%, var(--c-setup-screen-glow) 0%, transparent 70%);
+  padding: 2rem;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Floating card that wraps both panels */
+.setup-frame {
+  display: flex;
+  width: 100%;
+  max-width: 1160px;
+  height: 100%;
+  max-height: min(880px, calc(100vh - 4rem));
+  border-radius: var(--r-panel);
+  overflow: hidden;
+  border: 1px solid var(--glass-2);
+  /* top-edge highlight + depth shadow + faint accent glow */
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.06),
+    0 32px 80px rgba(0,0,0,0.7),
+    0 0 120px var(--c-setup-frame-glow);
+}
+
+/* ── Buzzer list / card styles (moved from inline styles in BuzzerCard) */
+.buzzer-cluster__card {
+  width: 180px;
+  padding: 6px 8px;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  background: rgba(15,15,20,0.45);
+}
+.buzzer-cluster__list { }
+.buzzer-list-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 3px;
+  height: 28px;
+}
+.buzzer-list-item { width: 100%; }
+.buzzer-cluster__list > .buzzer-list-item:first-child { margin-top: 0; }
+.buzzer-list-icon {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  flex: 0 0 10px;
+  border: 1px solid rgba(255,255,255,0.04);
+  background: transparent;
+}
+.buzzer-list-icon.buzzer-list-icon--on { /* color & shadow set inline per-row */ }
+.buzzer-list-item__inner { display: flex; align-items: center; gap: 6px; min-width: 0; flex: 1 1 auto; }
+.buzzer-avatar-wrap { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; margin-right: 0; }
+.buzzer-label { font-weight: 500; font-size: 12px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; flex: 1 1 auto; text-transform: none; min-width: 0; }
+.buzzer-status { font-size: 12px; margin-left: auto; flex: 0 0 auto; }
+.buzzer-cluster__divider { height: 1px; background: rgba(255,255,255,0.04); margin: 4px 0; }
+
+/* Stronger override for labels inside the buzzer card to avoid colliding with the global .buzzer-label rule */
+.buzzer-cluster__card .buzzer-list-item__inner .buzzer-label {
+  flex: 1 1 auto;
+  min-width: 0;
+  text-transform: none !important;
+  text-align: left;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+}
+.buzzer-cluster__card.card-border { 
+  padding: 2px 8px !important;
+ }
+/* Slightly tighten the overall cluster spacing */
+.buzzer-cluster { gap: 3px; }
+
+/* Ensure SuitAvatar inside buzzer avatar wrapper doesn't add extra margin */
+.buzzer-avatar-wrap .suit-avatar { margin-right: 0 !important; }
+
+/* Left panel — device table */
+.setup-left {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 2.5rem 2rem 2.5rem 2.5rem;
+  overflow-y: auto;
+  background: rgba(255,255,255,0.015);
+  border-right: 1px solid rgba(255,255,255,0.07);
+}
+
+.setup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+.setup-header h2 { margin: 0; font-size: 1.4rem; }
+
+.setup-settings-collapse {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  margin-bottom: 0.5rem;
+}
+
+.setup-hint {
+  font-size: 0.85rem;
+  color: var(--c-muted);
+  margin: 0 0 1rem;
+  line-height: 1.5;
+}
+
+/* Device table */
+.setup-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.setup-table th {
+  text-align: left;
+  padding: 0.4rem 0.5rem;
+  color: var(--c-muted);
+  font-weight: 500;
+  border-bottom: 1px solid var(--glass-2);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.setup-row td {
+  padding: 0.45rem 0.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  vertical-align: middle;
+  transition: background 0.15s;
+}
+.setup-row:hover td { background: rgba(255,255,255,0.03); }
+
+/* Buzz-in highlight — pulses white-blue when device presses its button */
+.setup-row.setup-buzzing td {
+  background: rgba(0, 120, 255, 0.18) !important;
+  animation: buzz-flash 0.15s ease-out;
+}
+@keyframes buzz-flash {
+  0%   { background: rgba(0, 160, 255, 0.5); }
+  100% { background: rgba(0, 120, 255, 0.18); }
+}
+
+/* Active (ticked) rows get a subtle left border */
+.setup-row.setup-active td:first-child {
+  border-left: 3px solid var(--c-accent);
+}
+
+.setup-row.setup-scan-only { opacity: 0.45; }
+
+.setup-name-input {
+  background: var(--glass-1);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-micro);
+  padding: 0.3rem 0.5rem;
+  color: var(--c-white);
+  font-size: 0.9rem;
+  width: 100%;
+  min-width: 100px;
+}
+.setup-name-input:focus {
+  outline: none;
+  border-color: var(--c-accent);
+  background: rgba(0,80,255,0.1);
+}
+.setup-name-input::placeholder { color: rgba(255,255,255,0.25); }
+
+.setup-ip a { color: var(--c-muted); font-size: 0.82rem; text-decoration: none; }
+.setup-ip a:hover { color: var(--c-accent); text-decoration: underline; }
+.setup-hex { font-size: 0.78rem; color: rgba(255,255,255,0.25); font-family: monospace; }
+.setup-wled-name { font-size: 0.82rem; color: rgba(255,255,255,0.5); }
+.setup-unknown { color: rgba(255,255,255,0.2); }
+
+.setup-empty {
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--c-muted);
+  line-height: 1.7;
+  font-size: 0.9rem;
+}
+
+/* Hijack button — scan-only row */
+.setup-hijack-btn {
+  font-size: 0.8rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--r-micro);
+  border: 1px solid rgba(255,140,0,0.4);
+  background: rgba(255,120,0,0.1);
+  color: #ffaa44;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.setup-hijack-btn:hover:not(:disabled) {
+  background: rgba(255,120,0,0.22);
+  border-color: rgba(255,140,0,0.7);
+  color: #ffc070;
+}
+.setup-hijack-running {
+  border-color: rgba(80,120,255,0.5);
+  background: rgba(60,100,255,0.12);
+  color: #8aaaff;
+  cursor: not-allowed;
+  animation: breathe 1s ease-in-out infinite;
+}
+.setup-hijack-done {
+  border-color: rgba(0,200,100,0.5);
+  background: rgba(0,180,80,0.12);
+  color: #44dd88;
+}
+.setup-hijack-error {
+  border-color: rgba(255,60,60,0.5);
+  background: rgba(200,40,40,0.12);
+  color: #ff7070;
+}
+
+.setup-section-divider td {  padding: 0.7rem 0.5rem 0.4rem;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.setup-section-heading {
+  margin: 1.2rem 0 0.4rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  font-weight: 500;
+}
+.setup-addon { vertical-align: middle; padding: 2px 4px; }
+.setup-addon-select {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 4px;
+  color: inherit;
+  font-size: 0.78rem;
+  padding: 2px 4px;
+  width: 100%;
+  min-width: 90px;
+  max-height: 72px;
+}
+.setup-addon-select option { padding: 2px 4px; }
+.setup-divider-hint {
+  margin-left: 0.5rem;
+  font-style: italic;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* Right panel — start */
+.setup-right {
+  flex: 0 0 400px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow-y: auto;
+  padding: 2.5rem 2.5rem;
+  /* subtle blue-dark tint to differentiate from the table side */
+  background:
+    radial-gradient(ellipse 120% 80% at 50% 20%, var(--c-setup-right-glow) 0%, transparent 65%),
+    rgba(0, 5, 20, 0.25);
+}
+.setup-right-inner {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  flex: 1 1 0;
+  width: 100%;
+  max-width: 300px;
+  height: 100%;
+}
+.setup-logo    { font-size: 4rem; }
+.setup-title   { font-size: 2rem; margin: 0; letter-spacing: 0.03em; }
+
+.setup-instructions {
+  text-align: left;
+  color: var(--c-muted);
+  font-size: 0.9rem;
+  line-height: 1.8;
+  padding-left: 1.2rem;
+  margin: 0;
+}
+.setup-instructions strong { color: var(--c-white); }
+
+.setup-active-count {
+  font-size: 0.9rem;
+  color: var(--c-accent);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.setup-start-btn {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-radius: var(--r-list);
+  border: 2px solid var(--glass-border-s);
+  background: var(--glass-1);
+  color: rgba(255,255,255,0.35);
+  cursor: not-allowed;
+  letter-spacing: 0.03em;
+  transition: all 0.2s;
+}
+.setup-start-btn.setup-start-ready {
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+  color: #1a1400;
+  cursor: pointer;
+  box-shadow: 0 0 24px rgba(0,80,255,0.4);
+  animation: breathe 2.5s ease-in-out infinite;
+}
+.setup-start-btn.setup-start-ready:hover {
+  filter: brightness(1.15);
+  transform: scale(1.02);
+  animation: none;
+}
+
+.setup-tip {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.3);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.setup-copy-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.6);
+  opacity: 0.5;
+  padding: 0 0 5px 4px;
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  transition: opacity 0.15s, color 0.15s;
+}
+.setup-copy-btn:hover { opacity: 1; color: var(--c-white); }
+
+/* Alias chips */
+.setup-aliases { white-space: nowrap; }
+.setup-alias-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 4px;
+  padding: 1px 4px;
+  font-size: 0.72rem;
+  font-family: monospace;
+  color: rgba(255,255,255,0.6);
+  margin-right: 3px;
+}
+.setup-alias-remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(255,255,255,0.4);
+  font-size: 0.8rem;
+  padding: 0;
+  line-height: 1;
+  transition: color 0.15s;
+}
+.setup-alias-remove:hover { color: #ff6b6b; }
+.setup-alias-add {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.5);
+  border-radius: 4px;
+  font-size: 0.72rem;
+  padding: 1px 3px;
+  cursor: pointer;
+}
+.setup-alias-add:hover { background: rgba(255,255,255,0.12); }
+.setup-alias-chip--buzzing {
+  background: rgba(255, 200, 0, 0.25);
+  color: #ffd966;
+  box-shadow: 0 0 6px rgba(255, 200, 0, 0.4);
+  animation: breathe 0.6s ease-in-out 3;
+}
+
+/* ── Buzzer SVG component ─────────────────────────────────────────────────── */
+.buzzer-root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  user-select: none;
+}
+
+.buzzer-svg-wrap {
+  transition: transform 0.08s ease-out, filter 0.08s ease-out;
+}
+
+.buzzer-root--buzzing .buzzer-svg-wrap {
+  transform: scale(1.07) translateY(-3px);
+  filter:
+    drop-shadow(0 0  8px var(--buzzer-glow))
+    drop-shadow(0 0 22px var(--buzzer-glow));
+  animation: buzzer-pulse 0.15s ease-out;
+}
+
+@keyframes buzzer-pulse {
+  0%   { transform: scale(1.12) translateY(-5px); }
+  60%  { transform: scale(1.05) translateY(-2px); }
+  100% { transform: scale(1.07) translateY(-3px); }
+}
+
+.buzzer-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.buzzer-status {
+  font-size: 10px;
+  margin-top: -4px;
+  letter-spacing: 0.07em;
+}
+
+/* ── Setup color column ────────────────────────────────────────────────────────── */
+.setup-color-cell > div {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+/* Toggle / pill switch */
+.setup-color-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  width: 28px;
+  height: 16px;
+  flex-shrink: 0;
+}
+.setup-color-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+.setup-color-toggle__track {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.12);
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+.setup-color-toggle__track::after {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.35);
+  transition: transform 0.2s, background 0.2s;
+}
+.setup-color-toggle input:checked ~ .setup-color-toggle__track {
+  background: var(--c-accent, #5865f2);
+}
+.setup-color-toggle input:checked ~ .setup-color-toggle__track::after {
+  transform: translateX(12px);
+  background: #fff;
+}
+
+/* Native color input — styled as a small swatch */
+.setup-color-picker {
+  width: 30px;
+  height: 16px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background: none;
+  overflow: hidden;
+}
+.setup-color-picker::-webkit-color-swatch-wrapper { padding: 0; }
+.setup-color-picker::-webkit-color-swatch { border: none; border-radius: 3px; }
+
+/* Reset button next to the color picker — fixed size to match swatch */
+.setup-color-reset {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: rgba(255,255,255,0.5);
+}
+.setup-color-reset:hover { color: #fff; }
+.setup-color-push--done  { color: #00cc55; }
+.setup-color-push--error { color: #ff4444; }
+
+/* SuitAvatar / universal icon picker styles */
+.suit-avatar { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; }
+.suit-picker { position: relative; display: inline-flex; }
+.suit-picker-menu { position: absolute; right: 0; top: calc(100% + 6px); z-index: 30; width: 320px; max-height: 280px; overflow: auto; background: var(--panel-bg, #0b1220); border-radius: 8px; padding: 8px; box-shadow: 0 6px 18px rgba(0,0,0,0.6); }
+.suit-picker-search { padding: 4px; }
+.suit-picker-search input { width: 100%; padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06); background: transparent; color: inherit; }
+.suit-picker-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 6px; padding: 6px; }
+.suit-picker-item { width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; background: transparent; border: none; cursor: pointer; }
+.suit-picker-item:hover { background: rgba(255,255,255,0.04); }
+
+/* ── DisplaySetupScreen ───────────────────────────────────────────────────── */
+.display-setup {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  background: radial-gradient(ellipse at 50% 35%, #0d1540 0%, #060810 70%);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+/* Subtle animated aurora in the background */
+.display-setup::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background: conic-gradient(
+    from 180deg at 50% 50%,
+    #1a0a4400 0deg,
+    #1a1a6622 80deg,
+    #0a2a6622 160deg,
+    #1a0a4400 360deg
+  );
+  animation: display-aurora 18s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes display-aurora {
+  to { transform: rotate(360deg); }
+}
+
+.display-setup__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.85);
+  opacity: 0.6;
+  user-select: none;
+  position: relative;
+}
+
+.display-setup__stage {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+  padding: 0 40px;
+  position: relative;
+}
+
+/* ── Buzzer cluster (primary + alias satellites) ─────────────────────────── */
+.buzzer-cluster {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.buzzer-cluster__aliases {
+  display: flex;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 8px 14px;
+}
+
+/* Alias list used in BuzzerCard */
+.buzzer-cluster__aliases-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 8px;
+}
+
+/* ── Display setup: scale up cards for TV leanback ──────────────────────── */
+.display-setup .buzzer-cluster__card {
+  width: 340px;
+  padding: 12px 16px;
+}
+.display-setup .buzzer-list-item {
+  height: 64px;
+}
+.display-setup .buzzer-list-item__inner {
+  gap: 14px;
+}
+.display-setup .buzzer-avatar-wrap {
+  width: 80px;
+  height: 80px;
+}
+.display-setup .buzzer-label {
+  font-size: 22px;
+}
+.display-setup .buzzer-status {
+  font-size: 18px;
+}
+.display-setup .buzzer-list-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.display-setup__empty {
+  color: rgba(255,255,255,0.3);
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  animation: breathe 2s ease-in-out infinite;
+}
+
+.display-setup__status {
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.30);
+  position: relative;
+}
+
+.display-setup__audio-hint {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.35);
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(0,0,0,0.35);
+  padding: 7px 18px;
+  border-radius: 20px;
+  transition: opacity 0.6s ease, color 0.4s ease;
+  pointer-events: none;
+  backdrop-filter: blur(6px);
+}
+
+.display-setup__audio-hint--done {
+  color: rgba(100, 230, 140, 0.70);
+  border-color: rgba(100, 230, 140, 0.20);
+  animation: hint-fade 2.5s ease forwards 1.5s;
+}
+
+@keyframes hint-fade {
+  to { opacity: 0; }
+}
+
+/* Responsive: stack vertically on narrow screens */
+@media (max-width: 700px) {
+  .setup-screen  { padding: 0; align-items: stretch; }
+  .setup-frame   { flex-direction: column; border-radius: 0; border: none; box-shadow: none; max-height: none; background: none; }
+  .setup-left    { flex: 0 0 auto; max-height: 55vh; padding: 1rem; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); }
+  .setup-right   { flex: 1 1 auto; padding: 1.5rem 1rem; background: none; }
+  .setup-right-inner { max-width: 100%; }
+  .setup-view-links { display: none !important; }
+}
+
+.setup-view-links {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 0.35rem;
+  width: 100%;
+}

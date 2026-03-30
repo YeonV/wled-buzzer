@@ -1,0 +1,342 @@
+/* ── Reflex Mode ─────────────────────────────────────────────────────────── */
+.state-reflex { background: #000; }
+.reflex-screen {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  transition: background-color 0.12s ease;
+  position: relative; gap: 1.5rem;
+}
+.reflex-countdown {
+  font-size: clamp(8rem, 25vw, 16rem);
+  font-weight: 900; color: var(--c-white);
+  animation: reflex-pop 0.25s cubic-bezier(0.22,1,0.36,1);
+  text-shadow: 0 0 80px rgba(255,255,255,0.3);
+}
+.reflex-go {
+  font-size: clamp(5rem, 18vw, 13rem);
+  font-weight: 900; color: var(--c-white); letter-spacing: 0.08em;
+  animation: reflex-pop 0.2s cubic-bezier(0.22,1,0.36,1);
+  text-shadow: 0 0 100px rgba(255,255,255,0.5);
+}
+@keyframes reflex-pop {
+  from { transform: scale(0.6); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+.reflex-live { display: flex; flex-direction: column; gap: 0.6rem; width: min(500px, 90vw); }
+.reflex-buzz-item {
+  display: flex; align-items: center; gap: 1rem;
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(8px);
+  border-radius: var(--r-card);
+  padding: 0.75rem 1.4rem; font-size: 1.35rem; font-weight: 700;
+  animation: reflex-slide-in 0.3s cubic-bezier(0.22,1,0.36,1);
+  border: 1px solid rgba(255,255,255,0.14);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.reflex-false-start {
+  background: rgba(255,30,0,0.2); border: 1px solid rgba(255,30,0,0.45);
+  border-radius: var(--r-list); padding: 0.55rem 1.4rem;
+  font-size: 1.05rem; color: var(--c-penalty);
+  animation: reflex-slide-in 0.3s cubic-bezier(0.22,1,0.36,1);
+  backdrop-filter: blur(6px);
+}
+@keyframes reflex-slide-in {
+  from { transform: translateX(-24px); opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+.reflex-pos  { font-size: 1.1rem; font-weight: 700; min-width: 1.8rem; }
+
+/* ── Rank badge ─────────────────────────────────────────────────────────────── */
+.rank-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+  font-weight: 700;
+  font-size: 1em;
+  opacity: 0.9;
+}
+.reflex-name { flex: 1; color: var(--c-white); }
+.reflex-ms   { color: rgba(255,255,255,0.55); font-size: 0.95rem; font-variant-numeric: tabular-nums; }
+.reflex-result {
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-3);
+  border-radius: var(--r-card); padding: 1.6rem 2rem; width: min(550px, 92vw);
+  box-shadow: inset 0 1px 0 var(--glass-1), 0 16px 48px rgba(0,0,0,0.5);
+}
+.reflex-result h2 { text-align: center; margin-bottom: 1rem; font-size: 1.5rem; color: var(--c-accent); letter-spacing: 0.05em; }
+.reflex-award {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0.65rem 0; font-size: 1.2rem;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  color: var(--c-white); font-weight: 600;
+}
+.reflex-penalty { margin-top: 0.8rem; font-size: 0.95rem; color: var(--c-penalty); }
+.reflex-screen .btn.btn--error,
+.timer-screen .btn.btn--error,
+.reflex-screen .btn.btn--error,
+.timer-screen .btn.btn--error,
+.bomb-screen .btn.btn--error,
+.survivor-screen .btn.btn--error,
+.iter-screen .btn.btn--error {
+  position: absolute; bottom: 1.5rem; right: 1.5rem;
+  padding: 0.5rem 1.1rem; background: rgba(255,0,0,0.15);
+  border: 1px solid rgba(255,0,0,0.35); border-radius: var(--r-btn);
+  color: var(--c-penalty); cursor: pointer; font-size: 0.9rem;
+  transition: background 0.15s;
+}
+.reflex-screen .btn.btn--error:not(.btn--ghost):hover,
+.timer-screen .btn.btn--error:not(.btn--ghost):hover,
+.bomb-screen .btn.btn--error:not(.btn--ghost):hover,
+.survivor-screen .btn.btn--error:not(.btn--ghost):hover,
+.iter-screen .btn.btn--error:not(.btn--ghost):hover { background: rgba(255,0,0,0.28); }
+.mode-toggle { display: flex; gap: 0.5rem; }
+
+/* ── Precision Timer mode ─────────────────────────────────────────────────── */
+.state-precision { background: radial-gradient(ellipse 80% 60% at 50% 40%, var(--c-bg-precision) 0%, #08080f 100%); }
+.precision-screen {
+  flex: 1 1 0; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 1.2rem; padding: 2rem; position: relative;
+}
+.precision-cue {
+  font-size: clamp(6rem, 20vw, 14rem);
+  animation: reflex-pop 0.25s cubic-bezier(0.22,1,0.36,1);
+  filter: drop-shadow(0 0 60px rgba(0,180,255,0.5));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--c-sky);
+}
+.precision-cue svg { width: clamp(6rem, 20vw, 14rem); height: clamp(6rem, 20vw, 14rem); }
+.precision-target-display {
+  font-size: clamp(2rem, 6vw, 4rem); font-weight: 900; color: var(--c-accent);
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 30px rgba(255,220,0,0.4);
+}
+.precision-hint {
+  font-size: 1rem; color: var(--c-muted); text-align: center; max-width: 400px;
+}
+.precision-error {
+  font-size: 0.8em; color: rgba(255,200,0,0.65);
+}
+.precision-result-target {
+  text-align: center; font-size: 0.9rem; color: var(--c-muted); margin-bottom: 0.5rem;
+}
+
+/* ── Elimination mode ─────────────────────────────────────────────────────── */
+.state-elimination { background: radial-gradient(ellipse 80% 60% at 50% 40%, var(--c-bg-elimination) 0%, #080808 100%); }
+.elimination-screen {
+  flex: 1 1 0; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 1.2rem; padding: 2rem; position: relative;
+}
+.elim-title {
+  font-size: clamp(3rem, 10vw, 6rem); font-weight: 900; color: var(--c-orange);
+  text-shadow: 0 0 50px rgba(255,100,0,0.45); animation: reflex-pop 0.3s cubic-bezier(0.22,1,0.36,1);
+  letter-spacing: 0.04em;
+}
+.elim-hint {
+  font-size: 1rem; color: var(--c-muted); text-align: center;
+}
+.elim-bar-wrap {
+  width: min(500px, 88vw); height: 12px; background: var(--glass-2);
+  border-radius: var(--r-pill); overflow: hidden; position: relative;
+}
+.elim-bar {
+  height: 100%; background: linear-gradient(90deg, var(--c-orange), #ffcc00);
+  border-radius: var(--r-pill); transition: width 0.05s linear;
+}
+.elim-timer {
+  font-size: 2.5rem; font-weight: 900; color: var(--c-warning); font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 20px rgba(255,200,0,0.35);
+}
+.reflex-buzz-item.elim-last {
+  border-color: rgba(255,150,0,0.5);
+  background: rgba(255,120,0,0.12);
+}
+
+/* ── Bomb Defusal mode ────────────────────────────────────────────────────── */
+.state-bomb { background: radial-gradient(ellipse 80% 60% at 50% 40%, var(--c-bg-bomb-mode) 0%, #080000 100%); }
+.bomb-screen {
+  flex: 1 1 0; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 1.2rem; padding: 2rem; position: relative;
+}
+.bomb-fuse-wrap {
+  width: min(500px, 88vw); height: 16px; background: var(--glass-2);
+  border-radius: var(--r-pill); overflow: hidden;
+}
+.bomb-fuse-bar {
+  height: 100%; background: linear-gradient(90deg, #ff4400, #ff0000);
+  border-radius: var(--r-pill); transition: width 0.05s linear;
+}
+.bomb-timer {
+  font-size: clamp(4rem, 14vw, 10rem); font-weight: 900;
+  color: var(--c-bomb); font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 60px rgba(255,50,0,0.5);
+  letter-spacing: 0.03em;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+.bomb-timer-danger {
+  color: #ff2200;
+  text-shadow: 0 0 80px rgba(255,0,0,0.8);
+  animation: bomb-pulse 0.35s ease-in-out infinite;
+}
+@keyframes bomb-pulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.04); }
+}
+
+/* ── Survivor mode ────────────────────────────────────────────────────────── */
+.state-survivor { background: radial-gradient(ellipse 80% 60% at 50% 40%, var(--c-bg-survivor) 0%, #0a0800 100%); }
+.survivor-screen {
+  flex: 1 1 0; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 1rem; padding: 2rem; position: relative;
+}
+.survivor-header {
+  font-size: clamp(2rem, 6vw, 4rem); font-weight: 900; color: var(--c-gold);
+  text-shadow: 0 0 40px rgba(255,215,0,0.45); letter-spacing: 0.04em;
+}
+.survivor-status { text-align: center; }
+.survivor-eliminated {
+  font-size: 0.9rem; color: rgba(255,255,255,0.4); display: flex; flex-wrap: wrap;
+  gap: 0.5rem; align-items: center; justify-content: center;
+}
+.survivor-elim-name {
+  background: rgba(255,0,0,0.12); border: 1px solid rgba(255,0,0,0.25);
+  border-radius: var(--r-btn); padding: 0.15rem 0.5rem;
+  color: rgba(255,100,100,0.7); font-size: 0.85rem;
+}
+.survivor-winner { text-align: center; }
+.score-row-eliminated {
+  opacity: 0.3;
+  text-decoration: line-through;
+}
+.survivor-skull { font-size: 0.85em; }
+.suit-avatar {
+  display: inline-flex;
+  align-items: center;
+  color: var(--c-accent);
+  margin-right: 0.5em;
+  flex-shrink: 0;
+}
+/* ── Sport Timer mode ─────────────────────────────────────────────────────── */
+.state-timer { background: radial-gradient(ellipse 80% 60% at 50% 40%, var(--c-bg-timer) 0%, #04080f 100%); }
+.timer-screen {
+  flex: 1 1 0; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 1.2rem; padding: 2rem; position: relative;
+}
+.timer-elapsed {
+  font-size: clamp(4.5rem, 16vw, 11rem); font-weight: 900;
+  color: var(--c-cyan); font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 60px rgba(0,229,255,0.45);
+  letter-spacing: 0.03em;
+  animation: none;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+.timer-elapsed--warning {
+  color: var(--c-warning, #ffcc00);
+  text-shadow: 0 0 60px rgba(255,200,0,0.5);
+  animation: bomb-pulse 0.5s ease-in-out infinite;
+}
+.timer-elapsed--zero {
+  color: var(--c-red, #ff3030);
+  text-shadow: 0 0 80px rgba(255,0,0,0.7);
+}
+
+/* ── Timer countdown progress bar ─────────────────────────────────────── */
+.timer-progress-wrap {
+  width: min(500px, 88vw); height: 10px;
+  background: var(--glass-2);
+  border-radius: var(--r-pill); overflow: hidden;
+  margin-top: -0.5rem;
+}
+.timer-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--c-cyan), var(--c-accent));
+  border-radius: var(--r-pill);
+  transition: width 0.1s linear;
+}
+.timer-elapsed--warning ~ .timer-progress-wrap .timer-progress-bar,
+.timer-progress-wrap:has(~ .timer-elapsed--warning) .timer-progress-bar {
+  background: linear-gradient(90deg, var(--c-warning, #ffcc00), var(--c-orange, #ff8800));
+}
+
+/* ── Iterative Timer ─────────────────────────────────────────────────────── */
+.iter-screen { gap: 1.5rem; }
+
+.iter-running {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+}
+.iter-player-name {
+  font-size: clamp(1.4rem, 4vw, 2.4rem);
+  font-weight: 800;
+  color: var(--c-accent);
+  letter-spacing: 0.03em;
+}
+.iter-running .btn.btn--error {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #dc2626;
+  color: #fff;
+  border: none;
+  border-radius: var(--r-pill);
+  padding: 0.6rem 2rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter 0.15s, transform 0.1s;
+  margin-top: 0.4rem;
+}
+.iter-running .btn.btn--error:not(.btn--ghost):hover  { filter: brightness(1.15); }
+.iter-running .btn.btn--error:active { transform: scale(0.96); }
+
+.iter-roster {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  max-width: 420px;
+}
+.iter-player-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0.75rem 1.2rem;
+  background: var(--glass-1);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-btn);
+  color: var(--c-white);
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+}
+.iter-player-btn:hover:not(:disabled) {
+  background: rgba(255,255,255,0.14);
+  border-color: var(--c-accent);
+}
+.iter-player-btn:active:not(:disabled) { transform: scale(0.97); }
+.iter-player-btn--done {
+  opacity: 0.45;
+  cursor: default;
+  border-style: dashed;
+}
+.iter-done-time {
+  font-size: 0.9rem;
+  color: var(--c-correct);
+  font-variant-numeric: tabular-nums;
+}
+.iter-amount-input {
+  width: 5rem; padding: 0.2rem 0.4rem;
+  border: 1px solid var(--glass-border); border-radius: 0.35rem;
+  background: var(--glass-2); color: var(--c-text);
+  font-size: 0.9rem; text-align: center;
+  font-variant-numeric: tabular-nums;
+}

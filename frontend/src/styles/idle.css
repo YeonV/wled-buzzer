@@ -1,0 +1,347 @@
+
+/* ── Top toolbar ──────────────────────────────────────────────────────────── */
+.top-bar {
+  flex-shrink: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1.2rem;
+  border-bottom: 1px solid var(--glass-1);
+  background: rgba(0,0,0,0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 10;
+  opacity: 0.4;
+  transition: opacity 0.3s ease;
+}
+.top-bar:hover { opacity: 1; }
+.top-bar--loading { opacity: 0.6; }
+
+/* ── Moderator (phone) top bar ────────────────────────────────────────────── */
+.top-bar--moderator {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  opacity: 1;           /* always visible on phone — no hover needed */
+  padding: 0.55rem 1rem;
+  justify-content: flex-end; /* anchor controls to the right */
+}
+.top-bar--moderator .top-bar-right {
+  position: static;
+  transform: none;
+}
+.top-bar--moderator .top-bar-right {
+  position: static;
+  transform: none;
+}
+
+/* current-mode pill shown in moderator bar */
+.moderator-mode-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-accent);
+  background: rgba(255,220,0,0.1);
+  border: 1px solid rgba(255,220,0,0.25);
+  border-radius: var(--r-pill);
+  padding: 0.25rem 0.8rem;
+  white-space: nowrap;
+}
+
+/* settings btns grouped in an absolutely-positioned left container */
+.top-bar-left {
+  position: absolute;
+  left: 1.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.top-bar--moderator > .top-bar-left {
+  position: static;
+  transform: none;
+  margin-right: auto;
+}
+
+.top-bar-logo {
+  height: 24px;
+  width: 24px;
+  object-fit: contain;
+  border-radius: 6px;
+  opacity: 0.8;
+  margin-right: 0.2rem;
+}
+
+.top-bar-right {
+  position: absolute;
+  right: 1.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+@keyframes flash-bg {
+  0%, 100% { background: var(--c-bg-winner); }
+  50%       { background: #003300; }
+}
+
+/* ── Idle screen ───────────────────────────────────────────────────────────── */
+.idle-screen {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  padding: 2rem 1rem;
+  gap: 3rem;
+}
+
+.idle-screen h1 {
+  font-size: clamp(2.8rem, 9vw, 6rem);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  color: var(--c-white);
+  text-shadow: 0 0 60px var(--glass-3);
+}
+
+.idle-sub {
+  margin-top: 0.5rem;
+  color: var(--c-muted);
+  font-size: clamp(0.85rem, 2vw, 1.15rem);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.loop-btns {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+}
+
+/* inline variant (master / non-moderator) */
+.loop-btns-dock {
+  margin-top: 1.2rem;
+}
+
+/* fixed bottom card — moderator view only */
+.loop-btns-dock--fixed {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transform: none;
+  margin-top: 0;
+  z-index: 50;
+  background: rgba(14, 14, 28, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid var(--glass-3);
+  border-radius: 0;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.5);
+}
+
+/* Push idle-screen content above the fixed bottom dock (only when it exists).
+   10rem covers the dock + enough room for reveal/answer buttons. */
+body:has(.loop-btns-dock--fixed) .idle-screen {
+  padding-bottom: 10rem;
+}
+
+/* ── Buzzer setup log ────────────────────────────────────────────────────── */
+.setup-log {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  background: rgba(0,0,0,0.45);
+  border: 1px solid var(--glass-2);
+  border-radius: var(--r-list);
+  padding: 1.1rem 1.5rem;
+  min-width: 260px;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.setup-log-line {
+  font-size: 0.95rem;
+  font-family: 'Courier New', monospace;
+  opacity: 0;
+  transform: translateY(6px);
+  animation: setupLineFadeIn 0.35s ease forwards;
+  white-space: nowrap;
+}
+
+@keyframes setupLineFadeIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.setup-log-line--roster    { color: rgba(255,255,255,0.55); }
+.setup-log-line--setting-up {
+  color: var(--c-gold);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.setup-log-line--setting-up::after {
+  content: '';
+  display: inline-block;
+  width: 10px; height: 10px;
+  border: 2px solid rgba(255,215,0,0.3);
+  border-top-color: var(--c-gold);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.setup-log-line--done    { color: #3af084; }
+.setup-log-line--skipped { color: #ff9944; }
+
+.pulse-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.06);
+  animation: pulse 2.8s ease-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+.pulse-ring::after {
+  content: '';
+  position: absolute;
+  inset: -30px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.03);
+  animation: pulse 2.8s ease-out 0.9s infinite;
+}
+
+@keyframes pulse {
+  0%   { transform: translate(-50%, -50%) scale(0.85); opacity: 0.7; }
+  100% { transform: translate(-50%, -50%) scale(2.4);  opacity: 0; }
+}
+
+/* ── Scoreboard (idle screen) ───────────────────────────────────────────────── */
+.scoreboard {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: min(680px, 92vw);
+  position: relative;
+  z-index: 1;
+  opacity: 0.8;
+}
+
+/* ── Scoreboard position variants ─────────────────────────────────────────── */
+
+/* bottom (default) — normal flow, already handled by idle-screen column layout */
+/* top — same as bottom but reordered via order */
+.scoreboard--top { order: -1; margin-top: 0; margin-bottom: 2rem; }
+
+/* left / right — absolute, vertical column on the side */
+.scoreboard--left,
+.scoreboard--right {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: min(240px, 28vw);
+  margin: 0;
+  gap: 0.4rem;
+}
+.scoreboard--left  { left:  1rem; }
+.scoreboard--right { right: 1rem; }
+
+.scoreboard--left  .score-row,
+.scoreboard--right .score-row {
+  padding: 0.55rem 0.9rem;
+  font-size: 1.1rem;
+}
+
+/* bar-bottom / bar-top — horizontal row along the screen edge */
+.scoreboard--bar-bottom,
+.scoreboard--bar-top {
+  position: absolute;
+  left: 0; right: 0;
+  width: 100%;
+  max-width: 100%;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.3rem 0.5rem;
+  padding: 0.4rem 0.75rem;
+  margin: 0;
+  background: rgba(0,0,0,0.25);
+  backdrop-filter: blur(8px);
+  box-sizing: border-box;
+  z-index: 5;
+}
+.scoreboard--bar-bottom { bottom: 0; }
+.scoreboard--bar-top    { top: 0; padding-top: calc(0.4rem + var(--top-bar-h, 0px)); }
+
+.scoreboard--bar-bottom .score-row,
+.scoreboard--bar-top    .score-row {
+  padding: 0.3rem 0.9rem;
+  font-size: 1rem;
+  border-radius: var(--r-pill);
+  flex: 0 0 auto;
+  min-width: 0;
+  width: auto;
+}
+
+.score-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--glass-1);
+  border: 1px solid var(--glass-2);
+  border-radius: var(--r-card);
+  padding: 1rem 1.8rem;
+  font-size: 1.7rem;
+  backdrop-filter: blur(6px);
+  transition: background 0.3s, border-color 0.3s, opacity 0.4s;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+.score-row--leader {
+  background: var(--glass-2);
+  border-color: rgba(255,255,255,0.14);
+}
+
+.master-controls--loading { opacity: 0.4; transition: opacity 0.4s ease; }
+/* ── Preset-push loading state (scoreboard) ──────────────────────────────── */
+.score-row--loading {
+  opacity: 0.45;
+  transition: opacity 0.4s ease;
+}
+.pts-spinner {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 1.7rem;
+  height: 1.7rem;
+  border: 3px solid var(--glass-border);
+  border-top-color: var(--c-green);
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+.pts-status-done {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

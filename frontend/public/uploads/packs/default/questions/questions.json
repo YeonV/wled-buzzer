@@ -1,0 +1,112 @@
+[
+  {
+    "mode": "config",
+    "lang": "en",
+    "theme": "aurora",
+    "scoreboardPos": "bottom"
+  },
+  {
+    "mode": "intro",
+    "question": "THE GAME"
+  },
+  {
+    "mode": "rules",
+    "question": "🎮 Buzzer Rules\n\n⚡ First to press gets to answer.\n\n🔒 While the buzzer is locked — hands off!\nEvery illegal press is a violation, penalised with:\n\n   1st violation: warning\n   2nd violation: −100 points\n   3rd violation: −200 points\n   4th violation: −300 points\n\n💡 Spamming only hurts you — not the others.\n\nHave fun & play fair! 🏆"
+  },
+  {
+    "mode": "rules",
+    "question": "Game Flow\n\n0. Rules\n1. Quiz\n2. Skill Challenge\n3. Reaction Race\n4. Podium"
+  },
+  {
+    "mode": "intro",
+    "question": "A podium without a prize?! ... Of course not!"
+  },
+  {
+    "mode": "quiz",
+    "question": "Who invented the World Wide Web?",
+    "answers": [
+      "Tim Berners-Lee",
+      "Vint Cerf",
+      "Bill Gates",
+      "Alan Turing"
+    ],
+    "correct": 0
+  },
+  {
+    "mode": "quiz",
+    "question": "What does SQL stand for?",
+    "answers": [
+      "Structured Query Language",
+      "Standard Query Logic",
+      "Simple Question Layer",
+      "System Queue Language"
+    ],
+    "correct": 0
+  },
+  {
+    "mode": "quiz",
+    "question": "How many bits are in a byte?",
+    "answers": ["4", "8", "16", "32"],
+    "correct": 1
+  },
+  {
+    "mode": "quiz",
+    "question": "In which year was Linux first released?",
+    "answers": ["1989", "1991", "1994", "1997"],
+    "correct": 1
+  },
+  {
+    "mode": "quiz",
+    "question": "Above how many LEDs does WLED recommend switching from E1.31/UDP to DDP?",
+    "pretext": "Think about E1.31 universe channel limits!",
+    "answer": "490"
+  },
+  {
+    "mode": "quiz",
+    "question": "What is the GitHub username of WLED UI contributor \"Blade\"?",
+    "answer": "YeonV"
+  },
+  {
+    "mode": "itimer",
+    "question": "Fastest finger first — shortest hold time wins!",
+    "scoringType": "fastest",
+    "loop": 4
+  },
+  {
+    "mode": "itimer",
+    "question": "Hold your nerve — longest hold time wins!",
+    "scoringType": "longest",
+    "loop": 4
+  },
+  {
+    "mode": "itimer",
+    "question": "How many? Count it up — most reps wins!",
+    "scoringType": "amount",
+    "loop": 4
+  },
+  {
+    "mode": "quiz",
+    "question": "YZ",
+    "questionImage": "/uploads/questions/built-in/images/1773105137862_yz.png",
+    "answers": [
+      {
+        "image": "/uploads/questions/built-in/images/1773105150962_yz3.png"
+      },
+      {
+        "image": "/uploads/questions/built-in/images/1773105158309_yz-black.png"
+      },
+      {
+        "image": "/uploads/questions/built-in/images/1773105164226_yz-white.png"
+      },
+      {
+        "image": "/uploads/questions/built-in/images/1773105177560_yz4.png"
+      }
+    ],
+    "correct": 0
+  },
+  {
+    "mode": "timer",
+    "question": "Skill Challenge — buzz when the light drops!",
+    "loop": 2
+  }
+]

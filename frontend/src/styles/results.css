@@ -1,0 +1,211 @@
+/* ── Round history stats panel ─────────────────────────────────────────────── */
+.stats-panel {
+  max-height: 80dvh;
+  overflow-y: auto;
+}
+.stats-panel--display {
+  max-width: min(92vw, 1000px);
+  width: 100%;
+  padding: 3rem 4rem;
+  border-radius: var(--r-xl);
+  max-height: 85dvh;
+  overflow: hidden;
+}
+.stats-panel--display h2 {
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+}
+.stats-panel--display .round-history-entry {
+  padding: 1rem 1.4rem;
+  border-radius: var(--r-card);
+}
+.stats-panel--display .round-num    { font-size: 1rem; }
+.stats-panel--display .round-mode   { font-size: clamp(1rem, 1.8vw, 1.3rem); }
+.stats-panel--display .round-time   { font-size: 0.9rem; }
+.stats-panel--display .round-history-award { font-size: clamp(1rem, 1.6vw, 1.25rem); padding: 0.3rem 0; }
+.stats-panel--display .round-timing { font-size: clamp(0.85rem, 1.3vw, 1.05rem); }
+.stats-panel--display .round-history-list { gap: 1rem; }
+.round-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.round-history-entry {
+  background: var(--glass-1);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-btn);
+  padding: 0.7rem 1rem;
+}
+.round-history-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+.round-num {
+  font-weight: 700;
+  color: rgba(255,255,255,0.5);
+  font-size: 0.8rem;
+  min-width: 2.2rem;
+}
+.round-mode {
+  font-weight: 600;
+  font-size: 0.9rem;
+  flex: 1;
+}
+.round-time {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.4);
+}
+.round-history-awards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.round-history-award {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.88rem;
+  padding: 0.15rem 0;
+}
+.round-history-award .pts-pos { color: var(--c-pts-pos); font-weight: 600; }
+.round-history-award .pts-neg { color: var(--c-pts-neg); font-weight: 600; }
+.round-history-award .pts-zero { color: rgba(255,255,255,0.35); }
+.round-history-nobody {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.35);
+  font-style: italic;
+}
+.round-history-false {
+  font-size: 0.8rem;
+  color: var(--c-warning);
+}
+.round-timing {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.45);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+.round-timing.timing-warm { color: var(--c-warning); }
+.round-timing.timing-hot  { color: var(--c-hot); text-shadow: 0 0 8px rgba(255,107,53,0.6); }
+
+/* ── Past-game file picker ──────────────────────────────────────────────────── */
+.past-files-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1.2rem;
+  padding: 0.75rem 1rem;
+  background: rgba(0,0,0,0.25);
+  border: 1px solid var(--glass-2);
+  border-radius: var(--r-btn);
+  max-height: 220px;
+  overflow-y: auto;
+}
+/* Legacy `.past-file-btn` removed — use list items or `.btn` variants in JSX */
+
+
+/* ── Final / Game-Over screen ─────────────────────────────────────────────── */
+.final-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem 1rem 6rem;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.final-title {
+  font-size: clamp(1.8rem, 6vw, 3rem);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  color: var(--c-white);
+  text-shadow: 0 0 40px rgba(255,215,0,0.4);
+  text-align: center;
+}
+
+.final-podium {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+.final-podium-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 1rem 1.25rem;
+  border-radius: var(--r-panel);
+  background: var(--glass-1);
+  border: 1px solid var(--glass-2);
+  min-width: 0;
+  flex: 1 1 0;
+}
+.final-podium-slot--gold {
+  background: rgba(255,215,0,0.12);
+  border-color: rgba(255,215,0,0.4);
+  padding: 1.5rem 1.75rem;
+  order: 2;
+  box-shadow: 0 0 32px rgba(255,215,0,0.15);
+}
+.final-podium-slot--silver { order: 1; }
+.final-podium-slot--bronze { order: 3; }
+
+.final-podium-medal { font-size: 2rem; line-height: 1; }
+.final-podium-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--c-white);
+  text-align: center;
+}
+.final-podium-pts {
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--c-accent);
+}
+
+.final-rest {
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.final-rest-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.4rem 0.75rem;
+  background: var(--glass-1);
+  border-radius: var(--r-micro);
+}
+.final-rest-rank { color: rgba(255,255,255,0.3); font-size: 0.8rem; width: 2rem; }
+.final-rest-name { flex: 1; font-size: 0.95rem; }
+.final-rest-pts  { font-weight: 700; color: var(--c-accent); font-size: 0.9rem; }
+
+.final-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.question-nav .btn.btn--accent.btn--icon, .btn-question-nav--finish {
+  background: rgba(255,215,0,0.12);
+  border-color: rgba(255,215,0,0.4);
+  color: #ffd700;
+  font-size: 1rem;
+}
+.question-nav .btn.btn--accent.btn--icon:hover, .btn-question-nav--finish:hover {
+  background: rgba(255,215,0,0.22);
+}
+
+/* migrated legacy .btn-stop-champion -> use existing `.btn` modifiers; no custom styles added */
+
