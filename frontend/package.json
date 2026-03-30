@@ -1,7 +1,7 @@
 {
   "name": "wled-buzzer-frontend",
   "private": true,
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Frontend React app for WLED Quiz buzzer system",
   "type": "module",
   "scripts": {

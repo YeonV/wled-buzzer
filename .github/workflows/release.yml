@@ -72,9 +72,8 @@ jobs:
 
       # ── Zip ──────────────────────────────────────────────────────────────
       - name: Create release zip
-        run: |
-          Compress-Archive -Path dist\* -DestinationPath "${{ runner.temp }}\${{ steps.meta.outputs.zip }}"
-        shell: pwsh
+        run: cd dist && tar -acf ../release.zip * && cd ..
+        shell: bash
 
       # ── Publish GitHub Release ───────────────────────────────────────────
       - name: Create GitHub Release
@@ -82,10 +81,10 @@ jobs:
         with:
           tag_name: ${{ steps.meta.outputs.tag }}
           name: ${{ github.event.head_commit.message }}
-          files: ${{ runner.temp }}/${{ steps.meta.outputs.zip }}
+          files: release.zip
           body: |
             ## Installation
-            1. Download and unzip `${{ steps.meta.outputs.zip }}`
+            1. Download and unzip `release.zip`
             2. Double-click `wled-buzzer.exe`
             3. The browser opens automatically at `http://localhost:1303`
 
