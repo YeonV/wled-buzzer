@@ -1,6 +1,6 @@
 {
   "name": "wled-buzzer-backend",
-  "version": "0.1.7",
+  "version": "0.1.9",
   "description": "Backend server for WLED Quiz buzzer system",
   "main": "server.js",
   "scripts": {
