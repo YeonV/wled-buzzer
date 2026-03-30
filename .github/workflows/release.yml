@@ -80,7 +80,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.meta.outputs.tag }}
-          name: ${{ github.event.head_commit.message }}
+          name: Release ${{ steps.meta.outputs.version }}
           files: release.zip
           body: |
             ## Installation
