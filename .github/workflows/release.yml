@@ -72,9 +72,12 @@ jobs:
 
       # ── Zip ──────────────────────────────────────────────────────────────
       - name: Create release zip
+        env:
+          FOLDER: wled-buzzer-${{ steps.meta.outputs.version }}
+          ZIP: ${{ steps.meta.outputs.zip }}
         run: |
-          Rename-Item dist wled-buzzer-${{ steps.meta.outputs.version }}
-          Compress-Archive -Path wled-buzzer-${{ steps.meta.outputs.version }} -DestinationPath "${{ steps.meta.outputs.zip }}"
+          Rename-Item dist $env:FOLDER
+          Compress-Archive -Path $env:FOLDER -DestinationPath $env:ZIP
         shell: pwsh
 
       # ── Publish GitHub Release ───────────────────────────────────────────
