@@ -73,10 +73,8 @@ jobs:
       # ── Zip ──────────────────────────────────────────────────────────────
       - name: Create release zip
         run: |
-          Rename-Item dist wled-buzzer
-          Compress-Archive -Path wled-buzzer -DestinationPath "${{ steps.meta.outputs.zip }}"
-          Write-Host "Contents:"
-          Get-ChildItem -Recurse wled-buzzer
+          Rename-Item dist wled-buzzer-${{ steps.meta.outputs.version }}
+          Compress-Archive -Path wled-buzzer-${{ steps.meta.outputs.version }} -DestinationPath "${{ steps.meta.outputs.zip }}"
         shell: pwsh
 
       # ── Publish GitHub Release ───────────────────────────────────────────
