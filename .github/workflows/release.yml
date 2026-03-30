@@ -73,7 +73,7 @@ jobs:
       # ── Zip ──────────────────────────────────────────────────────────────
       - name: Create release zip
         run: |
-          Compress-Archive -Path dist\* -DestinationPath "${{ steps.meta.outputs.zip }}"
+          Compress-Archive -Path dist\* -DestinationPath "${{ runner.temp }}\${{ steps.meta.outputs.zip }}"
         shell: pwsh
 
       # ── Publish GitHub Release ───────────────────────────────────────────
@@ -82,7 +82,7 @@ jobs:
         with:
           tag_name: ${{ steps.meta.outputs.tag }}
           name: ${{ github.event.head_commit.message }}
-          files: ${{ steps.meta.outputs.zip }}
+          files: ${{ runner.temp }}/${{ steps.meta.outputs.zip }}
           body: |
             ## Installation
             1. Download and unzip `${{ steps.meta.outputs.zip }}`

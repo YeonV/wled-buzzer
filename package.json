@@ -1,6 +1,6 @@
 {
   "name": "wled-buzzer-monorepo",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A self-contained wireless quiz buzzer system for game shows and events. Physical WLED-powered buzzers connect over Wi-Fi to a Node.js server that runs the game logic, hosts the MQTT broker, and serves a React scoreboard — all from a single `.exe` that runs offline with no internet required.",
   "main": "index.js",
   "scripts": {
