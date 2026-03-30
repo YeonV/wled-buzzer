@@ -42,7 +42,7 @@ jobs:
       - name: Setup Node.js 18
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 22
 
       # ── Build frontend ───────────────────────────────────────────────────
       - name: Build frontend
@@ -56,7 +56,7 @@ jobs:
 
       - name: Package Windows .exe
         working-directory: backend
-        run: npx pkg server.js --targets node18-win-x64 --output ../dist/wled-buzzer.exe
+        run: npx pkg server.js --targets node22-win-x64 --output ../dist/wled-buzzer.exe
         shell: pwsh
 
       # ── Assemble dist/ folder ────────────────────────────────────────────

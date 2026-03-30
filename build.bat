@@ -34,7 +34,7 @@ if errorlevel 1 (
 echo.
 echo [3/4] Packaging backend into .exe (this may take a minute)...
 if not exist "%~dp0dist" mkdir "%~dp0dist"
-call npx pkg server.js --targets node18-win-x64 --output "%~dp0dist\wled-buzzer.exe"
+call npx pkg server.js --targets node22-win-x64 --output "%~dp0dist\wled-buzzer.exe"
 if errorlevel 1 (
   echo.
   echo  ERROR: pkg packaging failed!
